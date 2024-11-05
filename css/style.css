@@ -12,7 +12,8 @@ header {
     font-weight: 700;
 }
 
-header, footer {
+header,
+footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -22,7 +23,8 @@ header, footer {
     background-color: lightsteelblue;
 }
 
-header h1, footer p {
+header h1,
+footer p {
     margin: 0;
 }
 

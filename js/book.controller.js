@@ -14,24 +14,50 @@ function renderBooks() {
             <td>${book.title}</td>
             <td>${book.price}</td>
             <td>
-                <button onclick="onReadBook(event, '${book.sku}')">Read</button>
-                <button onclick="onUpdateBook(event, '${book.sku}')">Update</button>
-                <button onclick="onRemoveBook(event, '${book.sku}')">Delete</button>
+                <button onclick="onShowBookDetails('${book.sku}')">Read</button>
+                <button onclick="onUpdateBook('${book.sku}')">Update</button>
+                <button onclick="onRemoveBook('${book.sku}')">Delete</button>
             </td>
         </tr>`
     )
     elBooks.innerHTML = strHtmls.join('')
 }
 
-
-function onReadBook(ev, sku) {
-    
+function onAddBook() {
+    addBook()
+    renderBooks()
 }
 
-function onUpdateBook(ev, sku) {
+function onShowBookDetails(sku) {
+
+    const book = getBookBySKU(sku)
+    renderBookDetails(book)
     
+    const elModal = document.querySelector('.modal')
+    elModal.showModal()
 }
 
-function onRemoveBook(ev, sku) {
+function renderBookDetails(book) {
+    const elBookDetails = document.querySelector('.book-details')
     
+    elBookDetails.innerHTML = `
+    <h2>${book.title}</h2>
+    <p><strong>Price: </strong>${book.price}</p>
+    <p><strong>SKU: </strong>${book.sku}</p>
+    `;
+}
+
+function onCloseBookDetails() {
+    const elModal = document.querySelector('.modal')
+    elModal.close()
+}
+
+function onUpdateBook(sku) {
+    updateBook(sku)
+    renderBooks()
+}
+
+function onRemoveBook(sku) {
+    removeBook(sku)
+    renderBooks()
 }

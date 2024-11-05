@@ -4,13 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book-Shop</title>
+    <title>Books-Shop</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body onload="onInit()">
 
-    <header>Book Shop</header>
+    <header>
+        <h1>Books Shop</h1>
+        <button onclick="onAddBook()">Add New Book</button>
+    </header>
 
     <table class="books-container">
         <thead>
@@ -25,8 +28,14 @@
         </tbody>
     </table>
 
-    <footer>Coffeeright 2024</footer>
+    <dialog class="modal">
 
+        <section class="book-details"></section>
+        <button onclick="onCloseBookDetails()">Close</button>
+
+    </dialog>
+
+    <footer>Coffeeright 2024</footer>
 
     <script src="js/services/util.service.js"></script>
     <script src="js/services/storage.service.js"></script>
