@@ -1,36 +1,152 @@
+@font-face {
+    font-family: 'PermanentMarker-Regular';
+    src: url('fonts/PermanentMarker-Regular.ttf') format('woff2')
+}
+
+@font-face {
+    font-family: 'RobotoSlab-VariableFont';
+    src: url('fonts/RobotoSlab-VariableFont_wght.ttf') format('woff2')
+}
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f4f4;
+    font-family: 'RobotoSlab-VariableFont';
 }
 
 header {
-    font-size: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 6vh;
+    padding: 10px;
+    font-size: 1.5em;
     font-weight: 700;
+    font-family: 'PermanentMarker-Regular';
+    background: linear-gradient(135deg, rgb(0, 76, 176), rgb(0, 123, 255)); /* Gradient background */
+
+    h1 {
+        margin: 0;
+        color: white;
+    }
+
+    button {
+        font-size: clamp(1rem, 2vw, 1.5rem);
+        background-color: rgb(224, 224, 224);
+        color: rgb(0, 0, 0);
+    }
+
+    button:hover {
+        background-color: #d1d1d1;
+    }
 }
 
-header,
 footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     min-height: 6vh;
     padding: 10px;
-    background-color: lightsteelblue;
+    font-size: 1em;
+    background: linear-gradient(135deg, rgb(0, 76, 176), rgb(0, 123, 255));
+
+    p {
+        margin: 0;
+        color: white;
+    }
 }
 
-header h1,
-footer p {
-    margin: 0;
+button {
+    padding: 10px;
+    min-width: 7em;
+    color: #ffffff;
+    font-size: clamp(.8rem, 2vw, 1rem);
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+        transform: scale(1);
+    }
 }
 
 .books-container {
     min-height: 88vh;
-    width: 100vw;
-    padding: 10px;
-    margin: 0;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+
+    thead {
+        font-size: 20px;
+        font-family: 'PermanentMarker-Regular';
+        background-color: rgb(224, 224, 224);
+        color: rgb(0, 0, 0);
+    }
+    
+    tbody tr {
+        border-block-end: 2px solid #ddd;
+    }
+
+    th, td {
+        padding: 10px;
+        vertical-align: middle;
+    }
+    
+    .books-body-container tr td {
+        text-align: center;
+    }
+    
+    .books-body-container img {
+        width: 50%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+    img {
+        max-width: 7vw;
+    }
+
+    .read-btn {
+        background-color: #4ea8de;
+
+        &:hover {
+            background-color: #69c2fa;
+        }
+    }
+    
+    .update-btn {
+        background-color: #f1c40f;
+
+        &:hover {
+            background-color: #f5d238;
+        }
+    }
+    
+    .remove-btn {
+        background-color: #e67e22;
+
+        &:hover {
+            background-color: #ff923f;
+        }
+    }
+}
+
+.modal {
+    width: 100%;
+    max-width: 600px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
