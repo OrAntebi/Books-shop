@@ -29,23 +29,62 @@ header {
 
     font-size: 1.5em;
     font-family: 'PermanentMarker-Regular';
-    background: linear-gradient(135deg, rgb(0, 76, 176), rgb(0, 123, 255)); /* Gradient background */
+    background: linear-gradient(135deg, rgb(0, 65, 150), rgb(0, 123, 255));
 
     h1 {
         margin: 0;
-
+        margin-inline-start: 1vw;
         color: white;
     }
 
-    button {
+    .search-container {
+        position: relative;
+        width: 100%;
+        max-width: 400px;
+        
+        input {
+            min-height: 3.5vh;
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-family: monospace;
+            font-weight: bold;
+            word-spacing: -4px;
+        }
+
+        .clear-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            font-family: monospace;
+            color: black;
+            
+            &:hover {
+                color: #333333;
+                transition: none;
+                box-shadow: none;
+            }
+
+        }
+    }
+
+    .add-book {
+        margin-inline-end: 1vw;
+
         font-family: 'PermanentMarker-Regular';
         font-size: clamp(1rem, 2vw, 1.5rem);
-        background-color: rgb(224, 224, 224);
-        color: dar;
+        background-color: #d1d1d1;
     }
 
     button:hover {
-        background-color: #d1d1d1;
+        background-color: rgb(236, 236, 236);
     }
 }
 
@@ -57,7 +96,7 @@ footer {
     padding: 10px;
 
     font-size: 1em;
-    background: linear-gradient(135deg, rgb(0, 76, 176), rgb(0, 123, 255));
+    background: linear-gradient(135deg, rgb(0, 65, 150), rgb(0, 123, 255));
 
     p {
         margin: 0;
@@ -67,13 +106,10 @@ footer {
 
 button {
     padding: 10px;
-    min-width: 7em;
     font-family: 'RobotoSlab-VariableFont';
-
 
     color: #ffffff;
     font-size: clamp(.8rem, 2vw, 1rem);
-    font-weight: bold;
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -119,6 +155,10 @@ button {
         max-width: 7vw;
 
         margin: 0 auto;
+    }
+
+    button {
+        min-width: 7em;
     }
 
     .details-btn {

@@ -12,7 +12,13 @@
 
     <header>
         <h1>Books Shop</h1>
-        <button onclick="onAddBook()">Add New Book</button>
+
+        <form onsubmit="onSearchBook(event)" class="search-container">
+            <input class="search-input" type="text" placeholder="Search book by title" oninput="onFilterBooks()">
+            <button type="button" class="clear-btn" onclick="onClearSearch(event)">X</button>
+        </form>
+
+        <button class="add-book" onclick="onAddBook()">Add New Book</button>
     </header>
 
     <table class="books-container">
@@ -35,9 +41,8 @@
     </dialog>
 
     <footer>
-        <p>Coffeeright 2024</p>
+        <p>&copy; 2024 Books Shop. All rights reserved.</p>
     </footer>
-    
 
     <script src="js/services/util.service.js"></script>
     <script src="js/services/storage.service.js"></script>

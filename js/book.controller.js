@@ -5,9 +5,8 @@ function onInit() {
     renderBooks()
 }
 
-function renderBooks() {
+function renderBooks(books = getBooks()) {
     const elBooks = document.querySelector('.books-body-container')
-    const books = getBooks()
 
     const strHtmls = books.map(book => `
         <tr>
@@ -24,6 +23,21 @@ function renderBooks() {
         </tr>`
     )
     elBooks.innerHTML = strHtmls.join('')
+}
+
+function onFilterBooks() {
+    const elSearchInput = document.querySelector('.search-input')
+    const inputValue = elSearchInput.value.toLowerCase()
+    const filteredBooks = filterBooks(inputValue)
+    renderBooks(filteredBooks)
+}
+
+function onClearSearch(ev) {
+    ev.preventDefault()
+
+    const elSearchInput = document.querySelector('.search-input')
+    elSearchInput.value = ''
+    renderBooks()
 }
 
 function onAddBook() {
