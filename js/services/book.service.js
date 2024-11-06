@@ -46,15 +46,7 @@ function filterBooks(inputValue) {
     return gBooks.filter(book => book.title.toLowerCase().includes(inputValue))
 }
 
-function addBook() {
-    const title = prompt('Book title please:')
-    if (!title) return alert('To add a book, you must write the book\'s name')
-
-    const price = +prompt('Book price please:')
-    if (!price) return alert('Price must be in numbers')
-
-    const img = prompt('Book cover img (Optinal):')
-
+function addBook(title, price, img) {
     const newBook = _createBook(title, price, img)
     gBooks.unshift(newBook)
     _saveBooks()
@@ -65,9 +57,7 @@ function getBookBySKU(sku) {
     return book
 }
 
-function updateBook(sku) {
-    const newPrice = +prompt('Enter a new price please:')
-
+function updateBook(sku, newPrice) {
     const book = getBookBySKU(sku)
     book.price = `$${newPrice}`
     _saveBooks()
@@ -85,7 +75,7 @@ function _createBooks() {
     if (gBooks && gBooks.length > 0) return
 
     const bookTitles = Object.keys(booksImages)
-
+    
     gBooks = bookTitles.map(title => {
         return _createBook(title)
     })
@@ -93,11 +83,14 @@ function _createBooks() {
 }
 
 function _createBook(title, price, imgUrl) {
-
+    
     if (!price) price = getRandomInt(10, 300)
-    if (!imgUrl) booksImages[title.toLowerCase()] && !imgUrl.includes('http') ?
-        imgUrl = _getBookImgByTitle(title) :
-        imgUrl = unknownImg
+
+    if (!imgUrl || !imgUrl.includes('http')) {
+        imgUrl = booksImages[title.toLowerCase()] 
+        ? _getBookImgByTitle(title) 
+        : unknownImg
+    }
 
     return {
         sku: makeSKU(),
@@ -109,8 +102,6 @@ function _createBook(title, price, imgUrl) {
 
 function _getBookImgByTitle(title) {
     const bookTitle = title.toLowerCase()
-
-    if (!booksImages[bookTitle]) return unknownImg
     return booksImages[bookTitle]
 }
 

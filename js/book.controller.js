@@ -41,7 +41,15 @@ function onClearSearch(ev) {
 }
 
 function onAddBook() {
-    addBook()
+    const title = prompt('Book title please:')
+    if (!title) return alert('To add a book, you must write the book\'s name')
+
+    const price = +prompt('Book price please:')
+    if (!price) return alert('Price must be in numbers')
+
+    const img = prompt('Book cover img (Optinal):')
+
+    addBook(title, price, img)
     renderBooks()
     showSuccessMessage('Success! The book has been added')
 }
@@ -71,15 +79,17 @@ function onCloseBookDetails() {
 }
 
 function onUpdateBook(sku) {
-    updateBook(sku)
+    const newPrice = +prompt('Enter a new price please:')
+
+    updateBook(sku, newPrice)
     renderBooks()
     showSuccessMessage('Success! The book has been updated')
 }
 
 function onRemoveBook(sku) {
     removeBook(sku)
-    showSuccessMessage('Success! The book has been deleted')
     renderBooks()
+    showSuccessMessage('Success! The book has been deleted')
 }
 
 function showSuccessMessage(message) {
