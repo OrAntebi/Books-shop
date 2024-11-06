@@ -82,11 +82,11 @@ function _createBooks() {
     gBooks = loadFromStorage(STORAGE_KEY)
     if (gBooks && gBooks.length > 0) return
 
-    const bookTitles = Object.keys(booksImages);
+    const bookTitles = Object.keys(booksImages).filter(key => key !== 'unknown');
 
     gBooks = bookTitles.map(title => {
         const price = getRandomInt(10, 500)
-        
+
         return _createBook(title, price)
     })
 
@@ -99,10 +99,9 @@ function _createBook(title, price, imgUrl = _getBookImgByTitle(title)) {
         imgUrl = booksImages['unknown']
     }
     
-
     return {
         sku: makeSKU(),
-        title,
+        title: capitalizeFirstLetter(title),
         price: `$${price}`,
         imgUrl
     }
@@ -112,11 +111,9 @@ function _getBookImgByTitle(title) {
     
     const bookTitle = title.toLowerCase()
 
-    if (booksImages[bookTitle]) {
-        return booksImages[bookTitle]
-    }
+    if (!booksImages[bookTitle]) return ''
 
-    return ''
+    return booksImages[bookTitle]
 }
 
 function _saveBooks() {

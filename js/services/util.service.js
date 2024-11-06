@@ -16,3 +16,9 @@ function getRandomInt(min, max) {
     const maxFloored = Math.floor(max)
     return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled) // The maximum is exclusive and the minimum is inclusive
 }
+
+
+function capitalizeFirstLetter(str) {
+    if (str.length === 0) return str
+    return str.charAt(0).toUpperCase() + str.slice(1)
+}
