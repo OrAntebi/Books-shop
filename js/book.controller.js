@@ -43,20 +43,21 @@ function onClearSearch(ev) {
 function onAddBook() {
     addBook()
     renderBooks()
+    showSuccessMessage('Success! The book has been added')
 }
 
 function onShowBookDetails(sku) {
 
     const book = getBookBySKU(sku)
     renderBookDetails(book)
-    
+
     const elModal = document.querySelector('.modal')
     elModal.showModal()
 }
 
 function renderBookDetails(book) {
     const elBookDetails = document.querySelector('.book-details')
-    
+
     elBookDetails.innerHTML = `
     <h2>${book.title}</h2>
     <p><strong>Price: </strong>${book.price}</p>
@@ -72,9 +73,37 @@ function onCloseBookDetails() {
 function onUpdateBook(sku) {
     updateBook(sku)
     renderBooks()
+    showSuccessMessage('Success! The book has been updated')
 }
 
 function onRemoveBook(sku) {
     removeBook(sku)
+    showSuccessMessage('Success! The book has been deleted')
     renderBooks()
+}
+
+function showSuccessMessage(message) {
+    
+    const elBackdrop = document.querySelector('.backdrop')
+    const elModal = document.querySelector('.success-message-modal')
+    const elSuccessMessage = document.querySelector('.success-message')
+    const elProgressBar = document.querySelector('.progress-bar')
+
+    elBackdrop.style.display = 'block'
+    elSuccessMessage.textContent = message
+    elModal.style.display = 'block'
+
+    var progress = 100
+
+    const interval = setInterval(() => {
+        progress -= 1
+        elProgressBar.style.width = progress + '%'
+    
+        if (progress <= 0) {
+            clearInterval(interval)
+            elBackdrop.style.display = 'none'
+            elModal.style.display = 'none'
+        }
+    }, 20)
+    
 }

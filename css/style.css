@@ -31,7 +31,7 @@ header {
     font-family: 'PermanentMarker-Regular';
     background: linear-gradient(135deg, rgb(0, 65, 150), rgb(0, 123, 255));
 
-    h1 {  
+    h1 {
         font-size: clamp(2rem, 5vw, 4rem);
         margin: 0;
 
@@ -44,14 +44,14 @@ header {
         width: 100%;
         max-width: 400px;
 
-        
+
         input {
             min-height: 3.5vh;
             width: 100%;
-            
+
             padding: 0.5rem;
             padding-inline-end: 35px;
-            
+
             font-size: 1rem;
             border: 1px solid #ccc;
             border-radius: 10px;
@@ -71,7 +71,8 @@ header {
             font-size: 1.2rem;
             font-family: monospace;
             color: black;
-            
+            cursor: pointer;
+
             &:hover {
                 color: #333333;
                 transition: none;
@@ -82,7 +83,8 @@ header {
     }
 
     .add-book-btn {
-        padding: 1.5vh;
+        padding: 1vh 1vw;
+        margin-block-start: .5vh;
 
         font-family: 'PermanentMarker-Regular';
         font-size: clamp(1rem, 2vw, 1.5rem);
@@ -100,7 +102,7 @@ header {
             box-shadow: 0 6px 15px rgba(106, 193, 255, 0.5);
         }
     }
-    
+
 }
 
 footer {
@@ -122,7 +124,7 @@ footer {
 .books-container {
     min-height: 84.2vh;
     width: 100%;
-    
+
     border-collapse: collapse;
     text-align: center;
 
@@ -135,14 +137,14 @@ footer {
             padding-block: 1vh;
         }
     }
-    
+
     tbody tr {
         border-block-end: 2px solid #ddd;
     }
 
-    td {
+    td {        
         padding: 2vw;
-        width: fit-content;
+        margin: 0 auto;
     }
 
     img {
@@ -157,7 +159,7 @@ footer {
         width: clamp(80px, 50%, 7vw);
         padding: 10px;
         margin: 0.2vh;
-        
+
         font-family: 'RobotoSlab-VariableFont';
         color: #ffffff;
         font-size: clamp(.8rem, 2vw, 1rem);
@@ -165,27 +167,27 @@ footer {
         border-radius: 10px;
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.2s ease;
-    
-        
+
+
         &.details-btn {
             background-color: #4ea8de;
-            
+
             &:hover {
                 background-color: #69c2fa;
             }
         }
-        
+
         &.update-btn {
             background-color: #f1c40f;
-            
+
             &:hover {
                 background-color: #f5d238;
             }
         }
-        
+
         &.remove-btn {
             background-color: #e67e22;
-            
+
             &:hover {
                 background-color: #ff923f;
             }
@@ -195,7 +197,7 @@ footer {
             transform: scale(1.05);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-    
+
         &:active {
             transform: scale(1);
         }
@@ -231,7 +233,7 @@ footer {
         /* min-width: 7em; */
 
         padding: 10px;
-        
+
         font-family: 'RobotoSlab-VariableFont';
         color: #ffffff;
         font-size: clamp(.8rem, 2vw, 1rem);
@@ -261,10 +263,63 @@ footer {
 
 }
 
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    
+    display: none;
+    z-index: 999;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.2);
+
+    .success-message-modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+
+        display: none;
+
+        padding: 20px;
+        
+        transform: translate(-50%, -50%);
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    
+        .success-message {
+            padding-bottom: 10px;
+            text-align: center;
+            
+            font-size: 18px;
+            color: rgb(10, 89, 186);
+        }
+    
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+
+            background-color: #e0e0e0;
+            border-radius: 5px;
+    
+            .progress-bar {
+                height: 100%;
+                width: 100%;
+
+                background-color: rgb(10, 89, 186);
+                border-radius: 5px;
+            }
+        }
+    }
+  }
+
 @media (width < 960px) {
-       header {
+    header {
         flex-direction: column;
-       } 
+    }
 }
 
 @media (width < 850px) {
