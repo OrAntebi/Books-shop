@@ -29,8 +29,7 @@ const booksImages = {
     "the secret garden": "https://covers.openlibrary.org/b/id/8240088-L.jpg",
     "the wind in the willows": "https://covers.openlibrary.org/b/id/6104330-L.jpg",
     "wuthering heights": "https://covers.openlibrary.org/b/id/8320912-L.jpg",
-    "sense and sensibility": "https://covers.openlibrary.org/b/id/11722300-L.jpg",
-    "unknown": "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+    "sense and sensibility": "https://covers.openlibrary.org/b/id/11722300-L.jpg"
 }
 
 const unknownImg = "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
