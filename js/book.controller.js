@@ -6,7 +6,7 @@ function onInit() {
 }
 
 function renderBooks(books = getBooks()) {
-    const elBooks = document.querySelector('.books-body-container')
+    const elBooks = document.querySelector('tbody')
 
     const strHtmls = books.map(book => `
         <tr>

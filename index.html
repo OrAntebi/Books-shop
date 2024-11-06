@@ -13,7 +13,7 @@
     <header>
         <h1>Books Shop</h1>
 
-        <form onsubmit="onSearchBook(event)" class="search-container">
+        <form class="search-container">
             <input class="search-input" type="text" placeholder="Search book by title" oninput="onFilterBooks()">
             <button type="button" class="clear-btn" onclick="onClearSearch(event)">X</button>
         </form>
@@ -30,7 +30,7 @@
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody class="books-body-container">
+        <tbody>
 
         </tbody>
     </table>

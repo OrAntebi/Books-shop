@@ -33,6 +33,8 @@ const booksImages = {
     "unknown": "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
 }
 
+const unknownImg = "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+
 var gBooks = []
 _createBooks()
 
@@ -66,7 +68,7 @@ function getBookBySKU(sku) {
 function updateBook(sku) {
     const newPrice = +prompt('Enter a new price please:')
 
-    const book = gBooks.find(book => book.sku === sku)
+    const book = getBookBySKU(sku)
     book.price = `$${newPrice}`
     _saveBooks()
 }
@@ -82,23 +84,21 @@ function _createBooks() {
     gBooks = loadFromStorage(STORAGE_KEY)
     if (gBooks && gBooks.length > 0) return
 
-    const bookTitles = Object.keys(booksImages).filter(key => key !== 'unknown');
+    const bookTitles = Object.keys(booksImages)
 
     gBooks = bookTitles.map(title => {
-        const price = getRandomInt(10, 500)
-
-        return _createBook(title, price)
+        return _createBook(title)
     })
-
     _saveBooks()
 }
 
-function _createBook(title, price, imgUrl = _getBookImgByTitle(title)) {
+function _createBook(title, price, imgUrl) {
 
-    if (!imgUrl || !booksImages[title.toLowerCase()] && !imgUrl.includes('http')) {
-        imgUrl = booksImages['unknown']
-    }
-    
+    if (!price) price = getRandomInt(10, 300)
+    if (!imgUrl) booksImages[title.toLowerCase()] && !imgUrl.includes('http') ?
+        imgUrl = _getBookImgByTitle(title) :
+        imgUrl = unknownImg
+
     return {
         sku: makeSKU(),
         title: capitalizeFirstLetter(title),
@@ -108,11 +108,9 @@ function _createBook(title, price, imgUrl = _getBookImgByTitle(title)) {
 }
 
 function _getBookImgByTitle(title) {
-    
     const bookTitle = title.toLowerCase()
 
-    if (!booksImages[bookTitle]) return ''
-
+    if (!booksImages[bookTitle]) return unknownImg
     return booksImages[bookTitle]
 }
 
