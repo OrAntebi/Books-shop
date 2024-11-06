@@ -142,11 +142,13 @@ footer {
 
     td {
         padding: 2vw;
+        width: fit-content;
     }
 
     img {
         display: block;
-        max-width: 7vw;
+        min-width: 70px;
+        max-width: 8vw;
 
         margin: 0 auto;
     }
@@ -265,7 +267,7 @@ footer {
        } 
 }
 
-@media (width < 787px) {
+@media (width < 850px) {
     tbody td:nth-child(4) {
         display: flex;
         flex-direction: column;
