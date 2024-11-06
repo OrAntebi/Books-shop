@@ -14,6 +14,7 @@
 
 body {
     margin: 0;
+
     background-color: #f4f4f4;
     font-family: 'RobotoSlab-VariableFont';
 }
@@ -22,22 +23,25 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 6vh;
+
+    min-height: 10vh;
     padding: 10px;
+
     font-size: 1.5em;
-    font-weight: 700;
     font-family: 'PermanentMarker-Regular';
     background: linear-gradient(135deg, rgb(0, 76, 176), rgb(0, 123, 255)); /* Gradient background */
 
     h1 {
         margin: 0;
+
         color: white;
     }
 
     button {
+        font-family: 'PermanentMarker-Regular';
         font-size: clamp(1rem, 2vw, 1.5rem);
         background-color: rgb(224, 224, 224);
-        color: rgb(0, 0, 0);
+        color: dar;
     }
 
     button:hover {
@@ -48,9 +52,10 @@ header {
 footer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+
     min-height: 6vh;
     padding: 10px;
+
     font-size: 1em;
     background: linear-gradient(135deg, rgb(0, 76, 176), rgb(0, 123, 255));
 
@@ -63,6 +68,9 @@ footer {
 button {
     padding: 10px;
     min-width: 7em;
+    font-family: 'RobotoSlab-VariableFont';
+
+
     color: #ffffff;
     font-size: clamp(.8rem, 2vw, 1rem);
     font-weight: bold;
@@ -82,43 +90,38 @@ button {
 }
 
 .books-container {
-    min-height: 88vh;
+    min-height: 84.2vh;
     width: 100%;
+    
     border-collapse: collapse;
     text-align: center;
 
     thead {
         font-size: 20px;
-        font-family: 'PermanentMarker-Regular';
         background-color: rgb(224, 224, 224);
         color: rgb(0, 0, 0);
+
+        th {
+            padding-block: 1vh;
+        }
     }
     
     tbody tr {
         border-block-end: 2px solid #ddd;
     }
 
-    th, td {
-        padding: 10px;
-        vertical-align: middle;
-    }
-    
-    .books-body-container tr td {
-        text-align: center;
-    }
-    
-    .books-body-container img {
-        width: 50%;
-        height: auto;
-        display: block;
-        margin: 0 auto;
+    td {
+        padding: 2vh;
     }
 
     img {
+        display: block;
         max-width: 7vw;
+
+        margin: 0 auto;
     }
 
-    .read-btn {
+    .details-btn {
         background-color: #4ea8de;
 
         &:hover {
@@ -145,8 +148,34 @@ button {
 
 .modal {
     width: 100%;
-    max-width: 600px;
+    max-width: 500px;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+    .book-details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    button {
+        background: linear-gradient(135deg, #4ea8de, #1d7bbc);
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        width: 80%;
+        margin: 0 auto;
+        display: block;
+
+        &:hover {
+            background-color: linear-gradient(135deg, #69c2fa, #2b8bd2);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
+        }
+
+        &:active {
+            transform: scale(0.98);
+            box-shadow: none;
+        }
+    }
+
 }

@@ -1,5 +1,7 @@
 'use strict'
 
+const STORAGE_KEY = 'books'
+
 var gBooks = []
 _createBooks()
 
@@ -7,12 +9,13 @@ function getBooks() {
     return gBooks
 }
 
-function addBook() {   
+function addBook() {
     const title = prompt('Book title please:')
     const price = prompt('Book price please:')
-    
+
     const newBook = _createBook(title, price)
     gBooks.unshift(newBook)
+    _saveBooks()
 }
 
 function getBookBySKU(sku) {
@@ -20,27 +23,33 @@ function getBookBySKU(sku) {
     return book
 }
 
-function updateBook(sku) {   
+function updateBook(sku) {
     const newPrice = +prompt('Enter a new price please:')
 
     const book = gBooks.find(book => book.sku === sku)
     book.price = `$${newPrice}`
+    _saveBooks()
 }
 
 function removeBook(sku) {
     const idx = gBooks.findIndex(book => book.sku === sku)
     gBooks.splice(idx, 1)
+    _saveBooks()
 }
 
 function _createBooks() {
+
+    gBooks = loadFromStorage(STORAGE_KEY)
+    if (gBooks && gBooks.length > 0) return
 
     gBooks = [
         _createBook('The picture of dorian gray', 120),
         _createBook('1984', 300),
         _createBook('The great gatsby', 87),
-        _createBook('the road', 148),
-        _createBook('the hobbit', 50),
+        _createBook('The road', 148),
+        _createBook('The hobbit', 50),
     ]
+    _saveBooks()
 }
 
 function _createBook(title, price) {
@@ -99,4 +108,8 @@ function _getBookImgByTitle(title) {
     }
 
     return booksImages["unknown"]
+}
+
+function _saveBooks() {
+    saveToStorage(STORAGE_KEY, gBooks)
 }
