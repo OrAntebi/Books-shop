@@ -14,7 +14,7 @@ function renderBooks(books = getBooks()) {
                 <img src="${book.imgUrl}" alt="Book Cover">
             </td>
             <td>${book.title}</td>
-            <td>${book.price}</td>
+            <td>$${book.price}</td>
             <td class="actions-container">
                 <button class="details-btn" onclick="onShowBookDetails('${book.sku}')">Details</button>
                 <button class="update-btn" onclick="onUpdateBook('${book.sku}')">Update</button>
