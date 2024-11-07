@@ -85,11 +85,7 @@ header {
 
     .add-book-btn {
         padding: 1vh 1vw;
-<<<<<<< HEAD
         margin-block-end: .5vh;
-=======
-        margin-block: .5vh;
->>>>>>> ddab195239bf91433de76d85af011ddb3b5325b1
 
         font-family: 'PermanentMarker-Regular';
         font-size: clamp(1rem, 2vw, 1.5rem);
