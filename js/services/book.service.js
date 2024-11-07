@@ -107,3 +107,8 @@ function _getBookImgByTitle(title) {
 function _saveBooks() {
     saveToStorage(STORAGE_KEY, gBooks)
 }
+
+function calcBooksStatistics(condition) {
+    var booksStats = gBooks.filter(condition).length
+    return booksStats
+}

@@ -23,6 +23,7 @@ function renderBooks(books = getBooks()) {
         </tr>`
     )
     elBooks.innerHTML = strHtmls.join('')
+    renderBooksStatistics()
 }
 
 function onFilterBooks() {
@@ -116,4 +117,14 @@ function showSuccessMessage(message) {
         }
     }, 20)
     
+}
+
+function renderBooksStatistics() {
+    const elCheapBooks = document.querySelector('.cheap-books-statistic span')
+    const elAverageBooks = document.querySelector('.average-books-statistic span')
+    const elExpansiveBooks = document.querySelector('.expensive-books-statistic span')
+
+    elCheapBooks.innerText = calcBooksStatistics(book => book.price < 80)
+    elAverageBooks.innerText = calcBooksStatistics(book => book.price >= 80 && book.price < 200)
+    elExpansiveBooks.innerText = calcBooksStatistics(book => book.price >= 200)
 }
