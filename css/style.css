@@ -110,11 +110,12 @@ footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 15px;
 
     min-height: 6vh;
     padding: 10px;
 
-    font-size: 1em;
+    font-size: clamp(.5em, 3vw, 1em);
     background: linear-gradient(135deg, rgb(0, 65, 150), rgb(0, 123, 255));
 
     p {
@@ -127,7 +128,7 @@ footer {
         flex-direction: column;
         gap: 2vh;
 
-        max-width: 400px;
+        width: fit-content;
         padding: 20px;
 
         white-space: nowrap;
@@ -137,6 +138,7 @@ footer {
 
         legend {
             padding: 6px 12px;
+
             color: rgb(0, 65, 150); 
             background-color: whitesmoke;
             border-radius: 6px;
@@ -380,4 +382,17 @@ footer {
         margin-bottom: 10px;
         /* Optional: space between buttons */
     }
+}
+
+@media (width < 600px) {
+    footer {
+        flex-direction: column-reverse;
+
+        .statistics-container {
+            gap: 0;
+            padding-block: 10px;
+        }
+    }
+
+
 }
