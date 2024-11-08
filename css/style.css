@@ -83,7 +83,8 @@ header {
         }
     }
 
-    .add-book-btn {
+    .add-book-btn,
+    .change-view-btn {
         padding: 1vh 1vw;
         margin-block-end: .5vh;
 
@@ -139,7 +140,7 @@ footer {
         legend {
             padding: 6px 12px;
 
-            color: rgb(0, 65, 150); 
+            color: rgb(0, 65, 150);
             background-color: whitesmoke;
             border-radius: 6px;
             font-weight: bold;
@@ -148,7 +149,7 @@ footer {
     }
 }
 
-.books-container {
+table {
     min-height: 84.2vh;
     width: 100%;
 
@@ -190,50 +191,109 @@ footer {
 
     button {
         width: clamp(80px, 50%, 7vw);
-        padding: 10px;
-        margin: 0.2vh;
+    }
+}
 
-        font-family: 'RobotoSlab-VariableFont';
-        color: #ffffff;
-        font-size: clamp(.8rem, 2vw, 1rem);
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1vh 1vw;
 
+    padding: 2vh 0;
 
-        &.details-btn {
-            background-color: #4ea8de;
+    .book-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "img details"
+            "img actions";
 
-            &:hover {
-                background-color: #69c2fa;
-            }
-        }
+        width: 400px;
+        height: 350px;
 
-        &.update-btn {
-            background-color: #f1c40f;
-
-            &:hover {
-                background-color: #f5d238;
-            }
-        }
-
-        &.remove-btn {
-            background-color: #e67e22;
-
-            &:hover {
-                background-color: #ff923f;
-            }
-        }
+        background-color: #e8e8e8;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        overflow: hidden;
 
         &:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
         }
 
-        &:active {
-            transform: scale(1);
+        img {
+            grid-area: img;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 1em;
         }
+
+        .details {
+            grid-area: details;
+            text-align: center;
+        }
+
+        .actions-container {
+            grid-area: actions;
+            display: flex;
+            flex-direction: column;
+            padding: 1em;
+        }
+
+    }
+
+}
+
+.actions-container button {
+    flex-grow: 1;
+    width: clamp(50%, 7vw);
+    padding: 10px;
+    margin: 0.2vh;
+
+    font-family: 'RobotoSlab-VariableFont';
+    color: #ffffff;
+    font-size: clamp(.8rem, 2vw, 1rem);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+
+
+    &.details-btn {
+        background-color: #4ea8de;
+
+        &:hover {
+            background-color: #69c2fa;
+        }
+    }
+
+    &.update-btn {
+        background-color: #f1c40f;
+
+        &:hover {
+            background-color: #f5d238;
+        }
+    }
+
+    &.remove-btn {
+        background-color: #e67e22;
+
+        &:hover {
+            background-color: #ff923f;
+        }
+    }
+
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+        transform: scale(1);
     }
 }
 
@@ -349,6 +409,10 @@ footer {
     }
 }
 
+.hidden {
+    display: none;
+}
+
 
 @media (width < 800px) {
 
@@ -360,28 +424,19 @@ footer {
     table {
         height: max-content;
     }
+    
+    .cards-container {
+        justify-content: center;
+    }
 
     .actions-container {
         display: flex;
-        /* Enable flexbox */
         flex-direction: column;
-        /* Stack buttons vertically */
         align-items: center;
-        /* Center buttons horizontally */
-        justify-content: center;
-        /* Center buttons vertically */
-        min-height: 100%;
-        /* Ensure td stretches vertically */
-        height: 100%;
-        /* Ensures it fills the full height */
-        width: 100%;
-        /* Ensures td stretches horizontally */
+        gap: .5vh;
     }
 
-    .actions-container button {
-        margin-bottom: 10px;
-        /* Optional: space between buttons */
-    }
+
 }
 
 @media (width < 600px) {
@@ -394,5 +449,17 @@ footer {
         }
     }
 
+    .actions-container {
+        align-items: normal;
+    }
 
+    .book-card {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "img"
+            "details"
+            "actions";
+
+        max-width: 90%;
+    }
 }

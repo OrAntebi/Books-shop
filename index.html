@@ -19,9 +19,10 @@
         </form>
 
         <button class="add-book-btn" onclick="onAddBook()">Add New Book</button>
+        <button class="change-view-btn" onclick="onChangeView(this)">Cards View</button>
     </header>
 
-    <table class="books-container">
+    <table>
         <thead>
             <tr>
                 <th>Book Cover</th>
@@ -34,6 +35,8 @@
 
         </tbody>
     </table>
+
+    <div class="cards-container hidden"></div>
 
     <dialog class="modal">
         <section class="book-details"></section>
