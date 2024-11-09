@@ -43,7 +43,7 @@ function renderBooksCards(books) {
                 <img src="${book.imgUrl}" />
                 <div class="details">
                 <p><strong>Title:</strong> ${book.title}</p>
-                <p><strong>Price:</strong> ${book.price}</p>
+                <p><strong>Price:</strong> $${book.price}</p>
                 </div>
                 <div class="actions-container">
                     <button class="details-btn" onclick="onShowBookDetails('${book.sku}')" >Details</button>
