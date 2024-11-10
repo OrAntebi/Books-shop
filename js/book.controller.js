@@ -1,6 +1,6 @@
 'use strict'
 
-var gLayout = 'table view'
+var gLayout = 'table'
 const LAYOUT_KEY = 'layout_db'
 
 function onInit() {
@@ -8,7 +8,7 @@ function onInit() {
 }
 
 function renderBooks(books = getBooks()) {
-    if (gLayout === 'table view') renderBooksTable(books)
+    if (gLayout === 'table') renderBooksTable(books)
     else renderBooksCards(books)
     renderBooksStatistics()
 }
@@ -76,15 +76,24 @@ function onSetLayout(layout) {
 function onFilterBooks() {
 
     const elSearchInput = document.querySelector('.search-input')
+    const elCardsContainer = document.querySelector('.cards-container')
     const inputValue = elSearchInput.value.toLowerCase()
     const filteredBooks = filterBooks(inputValue)
     renderBooks(filteredBooks)
+
+    if (filteredBooks.length <= 0) {
+        hideElement('.cards-container')
+        showElement('.no-books-found')
+    } else {
+        showElement('.cards-container')
+        hideElement('.no-books-found')
+    }
 }
 
-function onClearSearch(ev) {
-    ev.preventDefault()
-
+function onClearSearch() {
+    const elNoBooksFound = document.querySelector('.no-books-found')
     const elSearchInput = document.querySelector('.search-input')
+    elNoBooksFound.classList.add('hidden')
     elSearchInput.value = ''
     renderBooks()
 }
@@ -103,17 +112,10 @@ function onAddBook() {
     showSuccessMessage('Success! The book has been added')
 }
 
-function onChangeView(elChangeViewBtn) {
-    if (gLayout === 'table view') {
-        gLayout = 'grid view'
-        elChangeViewBtn.innerText = 'Table View'
-    } else {
-        gLayout = 'table view'
-        elChangeViewBtn.innerText = 'Grid View'
-    }
-
+function onChangeView(layout) {
+    gLayout = layout
     saveToStorage(LAYOUT_KEY, gLayout)
-    renderBooks()
+    onFilterBooks()
 }
 
 
@@ -130,9 +132,11 @@ function renderBookDetails(book) {
     const elBookDetails = document.querySelector('.book-details')
 
     elBookDetails.innerHTML = `
+    <img src="${book.imgUrl}" />
     <h2>${book.title}</h2>
     <p><strong>Price: </strong>${book.price}</p>
     <p><strong>SKU: </strong>${book.sku}</p>
+    <p><strong>Description: </strong>${book.description}</p>
     `;
 }
 

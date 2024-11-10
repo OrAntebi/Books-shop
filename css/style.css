@@ -13,6 +13,9 @@
 }
 
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     margin: 0;
 
     background-color: whitesmoke;
@@ -23,7 +26,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    gap: 3vw;
 
     min-height: 10vh;
     padding: 1vh 3vw;
@@ -32,7 +35,7 @@ header {
     background: linear-gradient(135deg, rgb(0, 65, 150), rgb(0, 123, 255));
 
     h1 {
-        font-size: clamp(2rem, 5vw, 4rem);
+        font-size: clamp(3rem, 5vw, 4rem);
         margin: 0;
 
         color: white;
@@ -45,7 +48,6 @@ header {
         width: 100%;
         max-width: 400px;
 
-
         input {
             min-height: 3.5vh;
             width: 100%;
@@ -53,7 +55,7 @@ header {
             padding: 0.5rem;
             padding-inline-end: 35px;
 
-            font-size: 1rem;
+            font-size: clamp(0.8em, 1vw, 1em);
             border: 1px solid #ccc;
             border-radius: 10px;
             font-family: monospace;
@@ -85,7 +87,9 @@ header {
 
     .add-book-btn,
     .change-view-btn {
-        padding: 1vh 1vw;
+        min-width: fit-content;
+
+        padding: 5px 10px;
         margin-block-end: .5vh;
 
         font-family: 'PermanentMarker-Regular';
@@ -105,6 +109,10 @@ header {
         }
     }
 
+    .layouts-btns {
+        display: flex;
+        gap: 10px;
+    }
 }
 
 footer {
@@ -114,6 +122,7 @@ footer {
     gap: 15px;
 
     min-height: 6vh;
+    width: 100%;
     padding: 10px;
 
     font-size: clamp(.5em, 3vw, 1em);
@@ -149,8 +158,11 @@ footer {
     }
 }
 
+.main-container {
+    flex-grow: 1;
+}
+
 table {
-    min-height: 84.2vh;
     width: 100%;
 
     border-collapse: collapse;
@@ -198,20 +210,20 @@ table {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1vh 1vw;
+    gap: 15px;
 
     padding: 2vh 0;
 
     .book-card {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
+        grid-template-rows: 1fr 1fr;
         grid-template-areas:
             "img details"
             "img actions";
 
         width: 400px;
-        height: 350px;
+        height: fit-content;
 
         background-color: #e8e8e8;
         border-radius: 12px;
@@ -248,57 +260,76 @@ table {
 
 }
 
-.actions-container button {
-    flex-grow: 1;
-    width: clamp(50%, 7vw);
-    padding: 10px;
-    margin: 0.2vh;
+.no-books-found {
+    width: 100vw;
 
-    font-family: 'RobotoSlab-VariableFont';
-    color: #ffffff;
-    font-size: clamp(.8rem, 2vw, 1rem);
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    h2 {
+        position: relative;
+
+        display: flex;
+        justify-content: center;
+
+        margin-block-start: 8vh;
+
+        font-size: clamp(1.2em, 2vw, 1.8em);
+        text-align: center;
+        color: rgba(0, 0, 0, 0.3);
+    }
+}
+
+.actions-container {
+
+    button {
+        /* width: clamp(60px, 10vw, 120px); */
+        padding: 10px;
+        margin: 0.2vh;
+
+        font-family: 'RobotoSlab-VariableFont';
+        color: #ffffff;
+        font-size: clamp(.6rem, 2vw, 1rem);
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
 
 
-    &.details-btn {
-        background-color: #4ea8de;
+        &.details-btn {
+            background-color: #4ea8de;
+
+            &:hover {
+                background-color: #69c2fa;
+            }
+        }
+
+        &.update-btn {
+            background-color: #f1c40f;
+
+            &:hover {
+                background-color: #f5d238;
+            }
+        }
+
+        &.remove-btn {
+            background-color: #e67e22;
+
+            &:hover {
+                background-color: #ff923f;
+            }
+        }
 
         &:hover {
-            background-color: #69c2fa;
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-    }
 
-    &.update-btn {
-        background-color: #f1c40f;
-
-        &:hover {
-            background-color: #f5d238;
+        &:active {
+            transform: scale(1);
         }
-    }
-
-    &.remove-btn {
-        background-color: #e67e22;
-
-        &:hover {
-            background-color: #ff923f;
-        }
-    }
-
-    &:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    &:active {
-        transform: scale(1);
     }
 }
 
 .modal {
-    width: 100%;
+    width: 90%;
     max-width: 500px;
     background-color: white;
     border-radius: 10px;
@@ -317,6 +348,14 @@ table {
 
         p {
             margin-block: 1vh;
+        }
+
+        img {
+            display: block;
+            min-width: 150px;
+            max-width: 10vw;
+    
+            margin: 0 auto;
         }
 
     }
@@ -424,7 +463,7 @@ table {
     table {
         height: max-content;
     }
-    
+
     .cards-container {
         justify-content: center;
     }
@@ -440,6 +479,42 @@ table {
 }
 
 @media (width < 600px) {
+    .cards-container {
+
+
+        .book-card {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            grid-template-areas:
+                "img"
+                "details"
+                "actions";
+
+            max-width: 90%;
+
+            img {
+                display: block;
+                min-width: 150px;
+                max-width: 10vw;
+        
+                margin: 0 auto;
+            }
+
+            .actions-container {
+                flex-direction: row;
+
+                button {
+                    flex-grow: 1;
+                }
+            }
+
+            &:hover {
+                transform: none;
+                box-shadow: none;
+            }
+        }
+    }
+
     footer {
         flex-direction: column-reverse;
 
@@ -449,17 +524,4 @@ table {
         }
     }
 
-    .actions-container {
-        align-items: normal;
-    }
-
-    .book-card {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-            "img"
-            "details"
-            "actions";
-
-        max-width: 90%;
-    }
 }

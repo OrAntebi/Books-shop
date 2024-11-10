@@ -95,7 +95,8 @@ function _createBook(title, price, imgUrl) {
         sku: makeSKU(),
         title: capitalizeFirstLetter(title),
         price,
-        imgUrl
+        imgUrl,
+        description: generateLoremIpsum(40)
     }
 }
 

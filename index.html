@@ -6,53 +6,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Books-Shop</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body onload="onInit()">
-
     <header>
         <h1>Books Shop</h1>
 
         <form class="search-container">
             <input class="search-input" type="text" placeholder="Search book by title" oninput="onFilterBooks()">
-            <button type="button" class="clear-btn" onclick="onClearSearch(event)">X</button>
+            <button type="button" class="clear-btn" onclick="onClearSearch()">X</button>
         </form>
 
         <button class="add-book-btn" onclick="onAddBook()">Add New Book</button>
-        <button class="change-view-btn" onclick="onChangeView(this)">Cards View</button>
+        <div class="layouts-btns">
+            <button class="change-view-btn" onclick="onChangeView('table')">
+                <i class="fa-solid fa-grip-lines"></i>
+            </button>
+            <button class="change-view-btn" onclick="onChangeView('cards')">
+                <i class="fa-solid fa-grip"></i>
+            </button>
+        </div>
     </header>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Book Cover</th>
-                <th>Title</th>
-                <th>Price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        
-        <tbody>
+    <section class="main-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Book Cover</th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-        </tbody>
-    </table>
+            <tbody>
 
-    <div class="cards-container hidden"></div>
+            </tbody>
+        </table>
 
-    <dialog class="modal">
-        <section class="book-details"></section>
-        <button onclick="onCloseBookDetails()">Close</button>
-    </dialog>
+        <div class="cards-container hidden"></div>
 
-    <div class="backdrop">
-        <div class="success-message-modal">
-            <p class="success-message"></p>
-
-            <div class="progress-bar-container">
-                <div class="progress-bar"></div>
-            </div>
+        <div class="no-books-found hidden">
+            <h2>No matching books were found...</h2>
         </div>
-    </div>
+    </section>
 
     <footer>
         <p>&copy; 2024 Books Shop. All rights reserved.</p>
@@ -71,6 +69,21 @@
         </fieldset>
 
     </footer>
+
+    <dialog class="modal">
+        <section class="book-details"></section>
+        <button onclick="onCloseBookDetails()">Close</button>
+    </dialog>
+
+    <div class="backdrop">
+        <div class="success-message-modal">
+            <p class="success-message"></p>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
 
     <script src="js/services/util.service.js"></script>
     <script src="js/services/storage.service.js"></script>
