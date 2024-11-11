@@ -49,15 +49,8 @@ header {
         max-width: 400px;
 
         input {
-            min-height: 3.5vh;
             width: 100%;
-
-            padding: 0.5rem;
-            padding-inline-end: 35px;
-
             font-size: clamp(0.8em, 1vw, 1em);
-            border: 1px solid #ccc;
-            border-radius: 10px;
             font-family: monospace;
             font-weight: bold;
             word-spacing: -4px;
@@ -90,8 +83,6 @@ header {
         min-width: fit-content;
 
         padding: 5px 10px;
-        margin-block-end: .5vh;
-
         font-family: 'PermanentMarker-Regular';
         font-size: clamp(1rem, 2vw, 1.5rem);
         background-color: #5dbbff;
@@ -333,7 +324,7 @@ table {
 
     width: 90%;
     max-width: 500px;
-
+    font-size: clamp(0.8em, 2vw, 1em);
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -364,28 +355,6 @@ table {
 
     }
 
-    input {
-        padding: .5em 1em;
-        font-size: 16px;
-        border: 2px solid #ddd;
-        border-radius: 10px;
-        background-color: #f7f7f7;
-        transition: all 0.3s ease-in-out;
-        outline: none;
-
-        &:focus {
-            border-color: #4e90ff;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(78, 144, 255, 0.2);
-          }
-          
-        &:placeholder {
-            color: #888;
-            font-style: italic;
-        }
-
-    }
-
     h2 {
         margin: 0 auto
     }
@@ -411,7 +380,6 @@ table {
 
         margin-block-start: 2vh;
     }
-
 
     button {
         padding: 10px;
@@ -439,6 +407,32 @@ table {
             transform: scale(0.98);
             box-shadow: none;
         }
+    }
+
+}
+
+input {
+    padding: .5em;
+
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background-color: #f7f7f7;
+    transition: all 0.3s ease-in-out;
+    outline: none;
+    font-size: clamp(0.8em, 1vw, 1em);
+    font-family: monospace;
+    font-weight: bold;
+    word-spacing: -4px;
+
+    &:focus {
+        border-color: #4e90ff;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(78, 144, 255, 0.2);
+      }
+      
+    &:placeholder {
+        color: #888;
+        font-style: italic;
     }
 
 }
