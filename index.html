@@ -17,7 +17,7 @@
             <input class="search-input" type="text" placeholder="Search book by title" oninput="onFilterBooks()">
             <button type="button" class="clear-btn" onclick="onClearSearch()">X</button>
         </form>
-        
+
         <button class="add-book-btn" onclick="onAddBook()">Add New Book</button>
 
         <div class="layouts-btns">
@@ -71,7 +71,53 @@
 
     </footer>
 
-    <dialog class="modal"></dialog>
+    <dialog class="modal">
+        <section class="modal-wrapper add-btn hidden">
+            <div class="modal-content">
+                <h2>Add new book</h2>
+                <p>Enter book title</p>
+                <input class="title-input" type="text" placeholder="Title">
+
+                <p>Enter book price</p>
+                <input class="price-input" type="number" min="1" placeholder="Price">
+
+                <p>Enter book cover image (Optional)</p>
+                <input class="img-input" type="text" placeholder="Url">
+            </div>
+
+            <div class="modal-btns-container">
+                <button onclick="onSubmit('add')">Submit</button>
+                <button onclick="onCloseModal()">Cancel</button>
+            </div>
+        </section>
+
+        <section class="modal-wrapper details-btn hidden">
+        </section>
+
+        <section class="modal-wrapper update-btn hidden">
+            <section class="modal-content">
+                <h2>Update Book Price</h2>
+                <p>Please enter the new price for the book</p>
+                <input class="price-input" type="number" min="1" placeholder="Price">
+            </section>
+
+            <div class="modal-btns-container">
+                <button onclick="onSubmit('update')">Submit</button>
+                <button onclick="onCloseModal()">Cancel</button>
+            </div>
+        </section>
+
+        <section class="modal-wrapper remove-btn hidden">
+            <section class="modal-content">
+                <h3>Are you sure you want to remove this book?</h3>
+            </section>
+
+            <div class="modal-btns-container">
+                <button onclick="onSubmit('remove')">Yes</button>
+                <button onclick="onCloseModal()">No</button>
+            </div>
+        </section>
+    </dialog>
 
     <div class="backdrop">
         <div class="success-message-modal">

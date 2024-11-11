@@ -30,8 +30,8 @@ function renderBooksTable(books) {
             </td>
         </tr>`
     )
-    showElement('table')
-    hideElement('.cards-container')
+    showElements('table')
+    hideElements('.cards-container')
     elBooks.innerHTML = strHtmls.join('')
 }
 
@@ -52,72 +52,27 @@ function renderBooksCards(books) {
                 </div>
             </div>`
     )
-    showElement('.cards-container')
-    hideElement('table')
+    showElements('.cards-container')
+    hideElements('table')
     elBooks.innerHTML = strHtmls.join('')
 }
 
-function renderModal(action, book = null) {
-    const elModal = document.querySelector('.modal');
+function renderBookDetailsModal(book) {
+    const elModal = document.querySelector('.modal-wrapper.details-btn');
 
-    if (action === 'add') {
-        elModal.innerHTML = `
-            <section class="modal-content">
-                <h2>Add new book</h2>
-                <p>Enter book title</p>
-                <input class="title-input" type="text" placeholder="Title">
-            
-                <p>Enter book price</p>
-                <input class="price-input" type="number" min="1" placeholder="Price">
-            
-                <p>Enter book cover image (Optional)</p>
-                <input class="img-input" type="text" placeholder="Url">
-            </section>
+    elModal.innerHTML = `
+        <section class="modal-content">
+            <img src="${book.imgUrl}" />
+            <h2>${book.title}</h2>
+            <p><strong>Price:</strong> $${book.price}</p>
+            <p><strong>SKU: </strong>${book.sku}</p>
+            <p><strong>Description: </strong>${book.description}</p>
+        </section>
 
-            <div class="modal-btns-container">
-                <button onclick="onSubmit('add')">Submit</button>
-                <button onclick="onCloseModal()">Cancel</button>
-            </div>
-        `;
-    } else if (action === 'details') {
-        elModal.innerHTML = `
-            <section class="modal-content">
-                <img src="${book.imgUrl}" />
-                <h2>${book.title}</h2>
-                <p><strong>Price:</strong> $${book.price}</p>
-                <p><strong>SKU: </strong>${book.sku}</p>
-                <p><strong>Description: </strong>${book.description}</p>
-            </section>
-
-            <div class="modal-btns-container">
-                <button onclick="onCloseModal()">Close</button>
-            </div>
-        `;
-    } else if (action === 'update') {
-        elModal.innerHTML = `
-            <section class="modal-content">
-                <h2>Update Book Price</h2>
-                <p>Please enter the new price for the book</p>
-                <input class="price-input" type="number" min="1" placeholder="Price">
-            </section>
-
-            <div class="modal-btns-container">
-                <button onclick="onSubmit('update')">Submit</button>
-                <button onclick="onCloseModal()">Cancel</button>
-            </div>
-        `;
-    } else if (action === 'remove') {
-        elModal.innerHTML = `
-            <section class="modal-content">
-                <h3>Are you sure you want to remove this book?</h3>
-            </section>
-
-            <div class="modal-btns-container">
-                <button onclick="onSubmit('remove')">Yes</button>
-                <button onclick="onCloseModal()">No</button>
-            </div>
-        `;
-    }
+        <div class="modal-btns-container">
+            <button onclick="onCloseModal()">Close</button>
+        </div>
+    `;
 }
 
 function renderBooksStatistics() {
@@ -138,11 +93,11 @@ function onFilterBooks() {
     renderBooks(filteredBooks)
 
     if (filteredBooks.length <= 0) {
-        hideElement('.cards-container')
-        showElement('.no-books-found')
+        hideElements('.cards-container')
+        showElements('.no-books-found')
     } else {
-        showElement('.cards-container')
-        hideElement('.no-books-found')
+        showElements('.cards-container')
+        hideElements('.no-books-found')
     }
 }
 
@@ -156,7 +111,7 @@ function onClearSearch() {
 
 function onAddBook() {
     const elModal = document.querySelector('.modal')
-    renderModal('add')
+    showElements('.modal-wrapper.add-btn')
     elModal.showModal()
 }
 
@@ -169,64 +124,64 @@ function onChangeView(layout) {
 function onShowBookDetails(sku) {
 
     const book = getBookBySKU(sku)
-    renderModal('details', book)
+    renderBookDetailsModal(book)
 
     const elModal = document.querySelector('.modal')
     elModal.showModal()
+    showElements('.modal-wrapper.details-btn')
 }
 
 function onUpdateBook(sku) {
     const elModal = document.querySelector('.modal')
     elModal.dataset.sku = sku
-    renderModal('update')
+    showElements('.modal-wrapper.update-btn')
     elModal.showModal()
 }
 
 function onRemoveBook(sku) {
     const elModal = document.querySelector('.modal')
     elModal.dataset.sku = sku
-    renderModal('remove')
+    showElements('.modal-wrapper.remove-btn')
     elModal.showModal()
 }
 
 function onSubmit(action) {
     const elModal = document.querySelector('.modal')
+    const titleFieldValue = elModal.querySelector('.modal-wrapper.add-btn .title-input').value
+    const updatedPriceFieldValue = parseFloat(elModal.querySelector('.modal-wrapper.update-btn .price-input').value)
+    const newPriceFieldValue = parseFloat(elModal.querySelector('.modal-wrapper.add-btn .price-input').value)
+    const imgFieldValue = elModal.querySelector('.modal-wrapper.add-btn .img-input').value
     const sku = elModal.dataset.sku
-    const elTitleValue = elModal.querySelector('.title-input')
-    const elPriceValue = elModal.querySelector('.price-input')
-    const elImgValue = elModal.querySelector('.img-input')
+
+    const msg = action === 'update' ? 'Success! The book has been updated' :
+                action === 'add' ? 'Success! The book has been added' :
+                action === 'remove' ? 'Success! The book has been deleted' :
+                '';
 
     if (action === 'update') {
-        const price = parseFloat(elPriceValue.value)
-
-        if (!price || price <= 0) return alert('Please enter a valid price.')
-        updateBook(sku, price)
-        renderBooks()
-        elModal.close()
-        showSuccessMessage('Success! The book has been updated')
+        if (!updatedPriceFieldValue || updatedPriceFieldValue <= 0) return alert('Please enter a valid price.')
+        updateBook(sku, updatedPriceFieldValue)
 
     } else if (action === 'add') {
-        const title = elTitleValue.value
-        const price = parseFloat(elPriceValue.value)
-        const img = elImgValue.value
-
-        if (!title) return alert('Please enter a valid book title.')
-        addBook(title, price, img)
-        renderBooks()
-        elModal.close()
-        showSuccessMessage('Success! The book has been added')
+        if (!titleFieldValue) return alert('Please enter a valid book title.')
+        addBook(titleFieldValue, newPriceFieldValue, imgFieldValue)
 
     } else if (action === 'remove') {
         removeBook(sku)
-        renderBooks()
-        elModal.close()
-        showSuccessMessage('Success! The book has been deleted')
     }
+    
+    renderBooks()
+    hideElements('.modal-wrapper')
+    elModal.close()
+    showSuccessMessage(msg)
+    clearInputFields()
 }
 
 function onCloseModal() {
     const elModal = document.querySelector('.modal')
     elModal.close()
+    hideElements('.modal-wrapper')
+    clearInputFields()
 }
 
 function showSuccessMessage(message) {
@@ -253,4 +208,13 @@ function showSuccessMessage(message) {
         }
     }, 10)
 
+}
+
+function clearInputFields() {
+    const elModal = document.querySelector('.modal');
+    const inputFields = elModal.querySelectorAll('input')
+
+    inputFields.forEach(input => {
+        if (input.value) input.value = ''
+    })
 }

@@ -32,12 +32,16 @@ function generateLoremIpsum(wordCount) {
     return selectedWords.join(' ') + (selectedWords.length === wordCount ? '' : '...');
 }
 
-function hideElement(selector) {
-    const el = document.querySelector(selector)
-    el.classList.add('hidden')
+function hideElements(selector) {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(el => {
+        el.classList.add('hidden');
+    });
 }
 
-function showElement(selector) {
-    const el = document.querySelector(selector)
-    el.classList.remove('hidden')
+function showElements(selector) {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(el => {
+        el.classList.remove('hidden');
+    });
 }
