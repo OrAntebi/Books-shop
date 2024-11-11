@@ -329,20 +329,23 @@ table {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
-    .book-details {
+    .modal-content {
         display: flex;
         flex-direction: column;
-
-        margin-block-end: 1vh;
+        justify-content: center;
+        gap: 1vh;
 
         h2 {
-            margin-block: 1vh;
+            margin: 0 auto
+        }
+    
+        h3 {
             text-align: center;
         }
-
+    
         p {
-            margin-block: 1vh;
-
+            margin: 0;
+            text-align: left;
         }
 
         img {
@@ -352,26 +355,6 @@ table {
 
             margin: 0 auto;
         }
-
-    }
-
-    h2 {
-        margin: 0 auto
-    }
-
-    h3 {
-        text-align: center;
-    }
-
-    p {
-        margin-block-end: 5px;
-        text-align: left;
-    }
-
-    .modal-content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
     }
 
     .modal-btns-container {
@@ -379,36 +362,35 @@ table {
         justify-content: space-around;
 
         margin-block-start: 2vh;
-    }
 
-    button {
-        padding: 10px;
-
-        font-family: 'RobotoSlab-VariableFont';
-        color: #ffffff;
-        font-size: clamp(.8rem, 2vw, 1rem);
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-
-        background: linear-gradient(135deg, #4ea8de, #1d7bbc);
-        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-        width: 40%;
-        margin: 0 auto;
-        display: block;
-
-        &:hover {
-            background-color: linear-gradient(135deg, #69c2fa, #2b8bd2);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            transform: scale(1.02);
+        button {
+            padding: 10px;
+    
+            font-family: 'RobotoSlab-VariableFont';
+            color: #ffffff;
+            font-size: clamp(.8rem, 2vw, 1rem);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+    
+            background: linear-gradient(135deg, #4ea8de, #1d7bbc);
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            width: 40%;
+            margin: 0 auto;
+            display: block;
+    
+            &:hover {
+                background-color: linear-gradient(135deg, #69c2fa, #2b8bd2);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+                transform: scale(1.02);
+            }
+    
+            &:active {
+                transform: scale(0.98);
+                box-shadow: none;
+            }
         }
-
-        &:active {
-            transform: scale(0.98);
-            box-shadow: none;
-        }
     }
-
 }
 
 input {

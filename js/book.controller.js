@@ -57,19 +57,67 @@ function renderBooksCards(books) {
     elBooks.innerHTML = strHtmls.join('')
 }
 
-function renderBookDetails(book) {
-    const elBookDetails = document.querySelector('.modal')
+function renderModal(action, book = null) {
+    const elModal = document.querySelector('.modal');
 
-    elBookDetails.innerHTML = `
-    <section class="book-details">
-        <img src="${book.imgUrl}" />
-        <h2>${book.title}</h2>
-        <p><strong>Price:</strong> $${book.price}</p>
-        <p><strong>SKU: </strong>${book.sku}</p>
-        <p><strong>Description: </strong>${book.description}</p>
-    </section>
-    <button onclick="onCloseBookDetails()">Close</button>
-    `;
+    if (action === 'add') {
+        elModal.innerHTML = `
+            <section class="modal-content">
+                <h2>Add new book</h2>
+                <p>Enter book title</p>
+                <input class="title-input" type="text" placeholder="Title">
+            
+                <p>Enter book price</p>
+                <input class="price-input" type="number" min="1" placeholder="Price">
+            
+                <p>Enter book cover image (Optional)</p>
+                <input class="img-input" type="text" placeholder="Url">
+            </section>
+
+            <div class="modal-btns-container">
+                <button onclick="onSubmit('add')">Submit</button>
+                <button onclick="onCloseModal()">Cancel</button>
+            </div>
+        `;
+    } else if (action === 'details') {
+        elModal.innerHTML = `
+            <section class="modal-content">
+                <img src="${book.imgUrl}" />
+                <h2>${book.title}</h2>
+                <p><strong>Price:</strong> $${book.price}</p>
+                <p><strong>SKU: </strong>${book.sku}</p>
+                <p><strong>Description: </strong>${book.description}</p>
+            </section>
+
+            <div class="modal-btns-container">
+                <button onclick="onCloseModal()">Close</button>
+            </div>
+        `;
+    } else if (action === 'update') {
+        elModal.innerHTML = `
+            <section class="modal-content">
+                <h2>Update Book Price</h2>
+                <p>Please enter the new price for the book</p>
+                <input class="price-input" type="number" min="1" placeholder="Price">
+            </section>
+
+            <div class="modal-btns-container">
+                <button onclick="onSubmit('update')">Submit</button>
+                <button onclick="onCloseModal()">Cancel</button>
+            </div>
+        `;
+    } else if (action === 'remove') {
+        elModal.innerHTML = `
+            <section class="modal-content">
+                <h3>Are you sure you want to remove this book?</h3>
+            </section>
+
+            <div class="modal-btns-container">
+                <button onclick="onSubmit('remove')">Yes</button>
+                <button onclick="onCloseModal()">No</button>
+            </div>
+        `;
+    }
 }
 
 function renderBooksStatistics() {
@@ -80,56 +128,6 @@ function renderBooksStatistics() {
     elCheapBooks.innerText = calcBooksStatistics(book => book.price < 80)
     elAverageBooks.innerText = calcBooksStatistics(book => book.price >= 80 && book.price < 200)
     elExpansiveBooks.innerText = calcBooksStatistics(book => book.price >= 200)
-}
-
-function renderModal(action) {
-
-    const elModal = document.querySelector('.modal')
-
-    if (action === 'update') {
-        elModal.innerHTML =
-            `
-        <section class="modal-content">
-            <h2>Update Book Price</h2>
-            <p>Please enter the new price for the book</p>
-            <input class="price-input" type="number" min="1" placeholder="Price">
-        <section>
-        <div class="modal-btns-container">
-            <button onclick="onSubmit('update')">Submit</button>
-            <button onclick="closeModal()">Cancel</button>
-        </div>
-        `
-    } else if (action === 'add') {
-        elModal.innerHTML =
-            `
-        <section class="modal-content">
-            <h2>Add new book</h2>
-            <p>Enter book title</p>
-            <input class="title-input" type="text" placeholder="Title">
-    
-            <p>Enter book price</p>
-            <input class="price-input" type="number" min="1" placeholder="Price">
-    
-            <p>Enter book cover image (Optional)</p>
-            <input class="img-input" type="text" placeholder="Url">
-        </section>
-        <div class="modal-btns-container">
-            <button onclick="onSubmit('add')">Submit</button>
-            <button onclick="closeModal()">Cancel</button>
-        </div>
-        `;
-    } else if (action === 'remove') {
-        elModal.innerHTML =
-            `
-        <section class="modal-content">
-            <h3>Are you sure you want to remove this book?</h3>
-        </section>
-        <div class="modal-btns-container">
-            <button onclick="onSubmit('remove')">Yes</button>
-            <button onclick="closeModal()">No</button>
-        </div>
-        `;
-    }
 }
 
 function onFilterBooks() {
@@ -171,21 +169,23 @@ function onChangeView(layout) {
 function onShowBookDetails(sku) {
 
     const book = getBookBySKU(sku)
-    renderBookDetails(book)
+    renderModal('details', book)
 
     const elModal = document.querySelector('.modal')
     elModal.showModal()
-}
-
-function onCloseBookDetails() {
-    const elModal = document.querySelector('.modal')
-    elModal.close()
 }
 
 function onUpdateBook(sku) {
     const elModal = document.querySelector('.modal')
     elModal.dataset.sku = sku
     renderModal('update')
+    elModal.showModal()
+}
+
+function onRemoveBook(sku) {
+    const elModal = document.querySelector('.modal')
+    elModal.dataset.sku = sku
+    renderModal('remove')
     elModal.showModal()
 }
 
@@ -224,16 +224,9 @@ function onSubmit(action) {
     }
 }
 
-function closeModal() {
+function onCloseModal() {
     const elModal = document.querySelector('.modal')
     elModal.close()
-}
-
-function onRemoveBook(sku) {
-    const elModal = document.querySelector('.modal')
-    elModal.dataset.sku = sku
-    renderModal('remove')
-    elModal.showModal()
 }
 
 function showSuccessMessage(message) {
@@ -260,14 +253,4 @@ function showSuccessMessage(message) {
         }
     }, 10)
 
-}
-
-function hideElement(selector) {
-    const el = document.querySelector(selector)
-    el.classList.add('hidden')
-}
-
-function showElement(selector) {
-    const el = document.querySelector(selector)
-    el.classList.remove('hidden')
 }
