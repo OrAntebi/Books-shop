@@ -505,7 +505,6 @@ input {
 @media (width < 600px) {
     .cards-container {
 
-
         .book-card {
             grid-template-columns: 1fr;
             grid-template-rows: auto;
@@ -534,7 +533,6 @@ input {
 
             &:hover {
                 transform: none;
-                box-shadow: none;
             }
         }
     }
