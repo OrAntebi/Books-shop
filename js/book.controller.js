@@ -22,7 +22,7 @@ function renderBooksTable(books) {
                 <img src="${book.imgUrl}" alt="Book Cover">
             </td>
             <td>${book.title}</td>
-            <td>$${book.price}</td>
+            <td>${book.price}</td>
             <td class="actions-container">
                 <button class="details-btn" onclick="onShowBookDetails('${book.sku}')">Details</button>
                 <button class="update-btn" onclick="onUpdateBook('${book.sku}')">Update</button>
@@ -43,7 +43,7 @@ function renderBooksCards(books) {
                 <img src="${book.imgUrl}" />
                 <div class="details">
                 <p><strong>Title:</strong> ${book.title}</p>
-                <p><strong>Price:</strong> $${book.price}</p>
+                <p><strong>Price:</strong> ${book.price}</p>
                 </div>
                 <div class="actions-container">
                     <button class="details-btn" onclick="onShowBookDetails('${book.sku}')">Details</button>
@@ -64,7 +64,7 @@ function renderBookDetailsModal(book) {
         <section class="modal-content">
             <img src="${book.imgUrl}" />
             <h2>${book.title}</h2>
-            <p><strong>Price:</strong> $${book.price}</p>
+            <p><strong>Price:</strong> ${book.price}</p>
             <p><strong>SKU: </strong>${book.sku}</p>
             <p><strong>Description: </strong>${book.description}</p>
         </section>

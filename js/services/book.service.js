@@ -58,7 +58,7 @@ function getBookBySKU(sku) {
 
 function updateBook(sku, newPrice) {
     const book = getBookBySKU(sku)
-    book.price = newPrice
+    book.price = '$' + newPrice
     _saveBooks()
 }
 
@@ -94,7 +94,7 @@ function _createBook(title, price, imgUrl) {
     return {
         sku: makeSKU(),
         title: capitalizeFirstLetter(title),
-        price,
+        price: '$' + price,
         imgUrl,
         description: generateLoremIpsum(40)
     }
