@@ -46,15 +46,30 @@ function renderBooksCards(books) {
                 <p><strong>Price:</strong> $${book.price}</p>
                 </div>
                 <div class="actions-container">
-                    <button class="details-btn" onclick="onShowBookDetails('${book.sku}')" >Details</button>
-                    <button class="update-btn" onclick="onUpdateBook('${book.sku}')" >Update</button>
-                    <button class="remove-btn" onclick="onRemoveBook('${book.sku}')" >Delete</button>
+                    <button class="details-btn" onclick="onShowBookDetails('${book.sku}')">Details</button>
+                    <button class="update-btn" onclick="onUpdateBook('${book.sku}')">Update</button>
+                    <button class="remove-btn" onclick="onRemoveBook('${book.sku}')">Delete</button>
                 </div>
             </div>`
     )
     showElement('.cards-container')
     hideElement('table')
     elBooks.innerHTML = strHtmls.join('')
+}
+
+function renderBookDetails(book) {
+    const elBookDetails = document.querySelector('.modal')
+
+    elBookDetails.innerHTML = `
+    <section class="book-details">
+        <img src="${book.imgUrl}" />
+        <h2>${book.title}</h2>
+        <p><strong>Price:</strong> $${book.price}</p>
+        <p><strong>SKU: </strong>${book.sku}</p>
+        <p><strong>Description: </strong>${book.description}</p>
+    </section>
+    <button onclick="onCloseBookDetails()">Close</button>
+    `;
 }
 
 function renderBooksStatistics() {
@@ -67,16 +82,59 @@ function renderBooksStatistics() {
     elExpansiveBooks.innerText = calcBooksStatistics(book => book.price >= 200)
 }
 
-function onSetLayout(layout) {
-    gLayout = layout
-    saveToStorage(LAYOUT_KEY, gLayout)
-    renderBooks()
+function renderModal(action) {
+
+    const elModal = document.querySelector('.modal')
+
+    if (action === 'update') {
+        elModal.innerHTML =
+            `
+        <section class="modal-content">
+            <h2>Update Book Price</h2>
+            <p>Please enter the new price for the book</p>
+            <input class="price-input" type="number" min="1" placeholder="Price">
+        <section>
+        <div class="modal-btns-container">
+            <button onclick="onSubmit('update')">Submit</button>
+            <button onclick="closeModal()">Cancel</button>
+        </div>
+        `
+    } else if (action === 'add') {
+        elModal.innerHTML =
+            `
+        <section class="modal-content">
+            <h2>Add new book</h2>
+            <p>Enter book title</p>
+            <input class="title-input" type="text" placeholder="Title">
+    
+            <p>Enter book price</p>
+            <input class="price-input" type="number" min="1" placeholder="Price">
+    
+            <p>Enter book cover image (Optional)</p>
+            <input class="img-input" type="text" placeholder="Url">
+        </section>
+        <div class="modal-btns-container">
+            <button onclick="onSubmit('add')">Submit</button>
+            <button onclick="closeModal()">Cancel</button>
+        </div>
+        `;
+    } else if (action === 'remove') {
+        elModal.innerHTML =
+            `
+        <section class="modal-content">
+            <h3>Are you sure you want to remove this book?</h3>
+        </section>
+        <div class="modal-btns-container">
+            <button onclick="onSubmit('remove')">Yes</button>
+            <button onclick="closeModal()">No</button>
+        </div>
+        `;
+    }
 }
 
 function onFilterBooks() {
 
     const elSearchInput = document.querySelector('.search-input')
-    const elCardsContainer = document.querySelector('.cards-container')
     const inputValue = elSearchInput.value.toLowerCase()
     const filteredBooks = filterBooks(inputValue)
     renderBooks(filteredBooks)
@@ -99,17 +157,9 @@ function onClearSearch() {
 }
 
 function onAddBook() {
-    const title = prompt('Book title please:')
-    if (!title) return alert('To add a book, you must write the book\'s name')
-
-    const price = +prompt('Book price please:')
-    if (!price) return alert('Price must be in numbers')
-
-    const img = prompt('Book cover img (Optinal):')
-
-    addBook(title, price, img)
-    renderBooks()
-    showSuccessMessage('Success! The book has been added')
+    const elModal = document.querySelector('.modal')
+    renderModal('add')
+    elModal.showModal()
 }
 
 function onChangeView(layout) {
@@ -117,7 +167,6 @@ function onChangeView(layout) {
     saveToStorage(LAYOUT_KEY, gLayout)
     onFilterBooks()
 }
-
 
 function onShowBookDetails(sku) {
 
@@ -128,35 +177,63 @@ function onShowBookDetails(sku) {
     elModal.showModal()
 }
 
-function renderBookDetails(book) {
-    const elBookDetails = document.querySelector('.book-details')
-
-    elBookDetails.innerHTML = `
-    <img src="${book.imgUrl}" />
-    <h2>${book.title}</h2>
-    <p><strong>Price: </strong>${book.price}</p>
-    <p><strong>SKU: </strong>${book.sku}</p>
-    <p><strong>Description: </strong>${book.description}</p>
-    `;
-}
-
 function onCloseBookDetails() {
     const elModal = document.querySelector('.modal')
     elModal.close()
 }
 
 function onUpdateBook(sku) {
-    const newPrice = +prompt('Enter a new price please:')
+    const elModal = document.querySelector('.modal')
+    elModal.dataset.sku = sku
+    renderModal('update')
+    elModal.showModal()
+}
 
-    updateBook(sku, newPrice)
-    renderBooks()
-    showSuccessMessage('Success! The book has been updated')
+function onSubmit(action) {
+    const elModal = document.querySelector('.modal')
+    const sku = elModal.dataset.sku
+    const elTitleValue = elModal.querySelector('.title-input')
+    const elPriceValue = elModal.querySelector('.price-input')
+    const elImgValue = elModal.querySelector('.img-input')
+
+    if (action === 'update') {
+        const price = parseFloat(elPriceValue.value)
+
+        if (!price || price <= 0) return alert('Please enter a valid price.')
+        updateBook(sku, price)
+        renderBooks()
+        elModal.close()
+        showSuccessMessage('Success! The book has been updated')
+
+    } else if (action === 'add') {
+        const title = elTitleValue.value
+        const price = parseFloat(elPriceValue.value)
+        const img = elImgValue.value
+
+        if (!title) return alert('Please enter a valid book title.')
+        addBook(title, price, img)
+        renderBooks()
+        elModal.close()
+        showSuccessMessage('Success! The book has been added')
+
+    } else if (action === 'remove') {
+        removeBook(sku)
+        renderBooks()
+        elModal.close()
+        showSuccessMessage('Success! The book has been deleted')
+    }
+}
+
+function closeModal() {
+    const elModal = document.querySelector('.modal')
+    elModal.close()
 }
 
 function onRemoveBook(sku) {
-    removeBook(sku)
-    renderBooks()
-    showSuccessMessage('Success! The book has been deleted')
+    const elModal = document.querySelector('.modal')
+    elModal.dataset.sku = sku
+    renderModal('remove')
+    elModal.showModal()
 }
 
 function showSuccessMessage(message) {
@@ -181,7 +258,7 @@ function showSuccessMessage(message) {
             elBackdrop.style.display = 'none'
             elModal.style.display = 'none'
         }
-    }, 20)
+    }, 10)
 
 }
 

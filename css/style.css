@@ -329,8 +329,11 @@ table {
 }
 
 .modal {
+    gap: 10px;
+
     width: 90%;
     max-width: 500px;
+
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -338,32 +341,79 @@ table {
     .book-details {
         display: flex;
         flex-direction: column;
-        align-items: center;
 
         margin-block-end: 1vh;
 
         h2 {
             margin-block: 1vh;
+            text-align: center;
         }
 
         p {
             margin-block: 1vh;
+
         }
 
         img {
             display: block;
             min-width: 150px;
             max-width: 10vw;
-    
+
             margin: 0 auto;
         }
 
     }
 
+    input {
+        padding: .5em 1em;
+        font-size: 16px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        background-color: #f7f7f7;
+        transition: all 0.3s ease-in-out;
+        outline: none;
+
+        &:focus {
+            border-color: #4e90ff;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(78, 144, 255, 0.2);
+          }
+          
+        &:placeholder {
+            color: #888;
+            font-style: italic;
+        }
+
+    }
+
+    h2 {
+        margin: 0 auto
+    }
+
+    h3 {
+        text-align: center;
+    }
+
+    p {
+        margin-block-end: 5px;
+        text-align: left;
+    }
+
+    .modal-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .modal-btns-container {
+        display: flex;
+        justify-content: space-around;
+
+        margin-block-start: 2vh;
+    }
+
+
     button {
-
-        /* min-width: 7em; */
-
         padding: 10px;
 
         font-family: 'RobotoSlab-VariableFont';
@@ -373,11 +423,9 @@ table {
         border-radius: 10px;
         cursor: pointer;
 
-
-
         background: linear-gradient(135deg, #4ea8de, #1d7bbc);
         transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-        width: 80%;
+        width: 40%;
         margin: 0 auto;
         display: block;
 
@@ -496,7 +544,7 @@ table {
                 display: block;
                 min-width: 150px;
                 max-width: 10vw;
-        
+
                 margin: 0 auto;
             }
 
