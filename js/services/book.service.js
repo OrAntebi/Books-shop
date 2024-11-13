@@ -45,8 +45,8 @@ function filterBooks(inputValue) {
     return gBooks.filter(book => book.title.toLowerCase().includes(inputValue))
 }
 
-function addBook(title, price, img) {
-    const newBook = _createBook(title, price, img)
+function addBook(title, price, img, rating) {
+    const newBook = _createBook(title, price, img, rating)
     gBooks.unshift(newBook)
     _saveBooks()
 }
@@ -58,15 +58,41 @@ function getBookBySKU(sku) {
 
 function updateBook(sku, newPrice) {
     const book = getBookBySKU(sku)
-    book.price = '$' + newPrice
+    book.price = newPrice
     _saveBooks()
 }
+
+function changeRating(sku, value) {
+    const book = getBookBySKU(sku)
+    
+    const newRating = book.rating + value
+
+    if (newRating < 1 || newRating > 5) return
+
+    book.rating = newRating
+
+    convertRatingToStars(newRating)
+    _saveBooks()
+}
+
 
 function removeBook(sku) {
     const idx = gBooks.findIndex(book => book.sku === sku)
     gBooks.splice(idx, 1)
     _saveBooks()
 }
+
+function calcBooksStatistics(condition) {
+    var booksStats = gBooks.filter(condition).length
+    return booksStats
+}
+
+function convertRatingToStars(rating, maxRating = 5) {
+    const filledStars = '<img class="rating-img" src="img/star-icon.png" alt="star-icon">'.repeat(rating)
+    const emptyStars = '<img class="rating-img" src="img/star-line-yellow-icon.png" alt="star-line-yellow-icon">'.repeat(maxRating - rating)
+    return filledStars + emptyStars
+}
+
 
 function _createBooks() {
 
@@ -81,10 +107,10 @@ function _createBooks() {
     _saveBooks()
 }
 
-function _createBook(title, price, imgUrl) {
+function _createBook(title, price, imgUrl, rating) {
     
-    if (!price) price = getRandomInt(10, 300)
-
+    if (!price) price = getRandomIntInclusive(10, 300)
+    if (!rating) rating = getRandomIntInclusive(1, 5)
     if (!imgUrl || !imgUrl.includes('http')) {
         imgUrl = booksImages[title.toLowerCase()] 
         ? _getBookImgByTitle(title) 
@@ -94,9 +120,10 @@ function _createBook(title, price, imgUrl) {
     return {
         sku: makeSKU(),
         title: capitalizeFirstLetter(title),
-        price: '$' + price,
+        price,
         imgUrl,
-        description: generateLoremIpsum(40)
+        description: generateLoremIpsum(40),
+        rating
     }
 }
 
@@ -107,9 +134,4 @@ function _getBookImgByTitle(title) {
 
 function _saveBooks() {
     saveToStorage(STORAGE_KEY, gBooks)
-}
-
-function calcBooksStatistics(condition) {
-    var booksStats = gBooks.filter(condition).length
-    return booksStats
 }

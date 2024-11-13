@@ -19,10 +19,11 @@ function renderBooksTable(books) {
     const strHtmls = books.map(book => `
         <tr>
             <td>
-                <img src="${book.imgUrl}" alt="Book Cover">
+                <img class="book-img" src="${book.imgUrl}" alt="Book Cover">
             </td>
             <td>${book.title}</td>
-            <td>${book.price}</td>
+            <td>${formatPrice(book.price)}</td>
+            <td>${convertRatingToStars(book.rating)}</td>
             <td class="actions-container">
                 <button class="details-btn" onclick="onShowBookDetails('${book.sku}')">Details</button>
                 <button class="update-btn" onclick="onUpdateBook('${book.sku}')">Update</button>
@@ -31,7 +32,7 @@ function renderBooksTable(books) {
         </tr>`
     )
     showElements('table')
-    hideElements('.cards-container')
+    hideElements('div.cards-container')
     elBooks.innerHTML = strHtmls.join('')
 }
 
@@ -40,10 +41,11 @@ function renderBooksCards(books) {
 
     const strHtmls = books.map(book => `
             <div class="book-card">
-                <img src="${book.imgUrl}" />
+                <img class="book-img" src="${book.imgUrl}" />
                 <div class="details">
                 <p><strong>Title:</strong> ${book.title}</p>
-                <p><strong>Price:</strong> ${book.price}</p>
+                <p><strong>Price:</strong> ${formatPrice(book.price)}</p>
+                <p>${convertRatingToStars(book.rating)}</p> 
                 </div>
                 <div class="actions-container">
                     <button class="details-btn" onclick="onShowBookDetails('${book.sku}')">Details</button>
@@ -52,7 +54,7 @@ function renderBooksCards(books) {
                 </div>
             </div>`
     )
-    showElements('.cards-container')
+    showElements('div.cards-container')
     hideElements('table')
     elBooks.innerHTML = strHtmls.join('')
 }
@@ -62,11 +64,16 @@ function renderBookDetailsModal(book) {
 
     elModal.innerHTML = `
         <section class="modal-content">
-            <img src="${book.imgUrl}" />
+            <img class="book-img" src="${book.imgUrl}" />
             <h2>${book.title}</h2>
-            <p><strong>Price:</strong> ${book.price}</p>
+            <p><strong>Price:</strong> ${formatPrice(book.price)}</p>
             <p><strong>SKU: </strong>${book.sku}</p>
             <p><strong>Description: </strong>${book.description}</p>
+            <div class="rating-container">
+                <img class="rating-img minus-btn" src="img/minus-button.png" alt="minus-rating-icon" onclick="onChangeRating(-1)">
+                <div class="stars-container">${convertRatingToStars(book.rating)}</div>
+                <img class="rating-img plus-btn" src="img/plus-button.png" alt="plus-rating-icon" onclick="onChangeRating(1)">
+            </div>
         </section>
 
         <div class="modal-btns-container">
@@ -90,13 +97,12 @@ function onFilterBooks() {
     const elSearchInput = document.querySelector('.search-input')
     const inputValue = elSearchInput.value.toLowerCase()
     const filteredBooks = filterBooks(inputValue)
+
     renderBooks(filteredBooks)
 
     if (filteredBooks.length <= 0) {
-        hideElements('.cards-container')
         showElements('.no-books-found')
     } else {
-        showElements('.cards-container')
         hideElements('.no-books-found')
     }
 }
@@ -122,13 +128,22 @@ function onChangeView(layout) {
 }
 
 function onShowBookDetails(sku) {
-
     const book = getBookBySKU(sku)
     renderBookDetailsModal(book)
 
     const elModal = document.querySelector('.modal')
+    elModal.dataset.sku = sku
     elModal.showModal()
     showElements('.modal-wrapper.details-btn')
+}
+
+function onChangeRating(value) {
+    const elModal = document.querySelector('.modal')
+    const sku = elModal.dataset.sku
+    changeRating(sku, value)
+    renderBooks()
+    const updatedBook = getBookBySKU(sku);
+    renderBookDetailsModal(updatedBook);
 }
 
 function onUpdateBook(sku) {
@@ -151,11 +166,12 @@ function onSubmit(action) {
     const updatedPriceFieldValue = parseFloat(elModal.querySelector('.modal-wrapper.update-btn .price-input').value)
     const newPriceFieldValue = parseFloat(elModal.querySelector('.modal-wrapper.add-btn .price-input').value)
     const imgFieldValue = elModal.querySelector('.modal-wrapper.add-btn .img-input').value
+    const ratingFieldValue = elModal.querySelector('.modal-wrapper.add-btn .rating-input').value
     const sku = elModal.dataset.sku
 
     const msg = action === 'update' ? 'Success! The book has been updated' :
-                action === 'add' ? 'Success! The book has been added' :
-                action === 'remove' ? 'Success! The book has been deleted' :
+        action === 'add' ? 'Success! The book has been added' :
+            action === 'remove' ? 'Success! The book has been deleted' :
                 '';
 
     if (action === 'update') {
@@ -164,12 +180,12 @@ function onSubmit(action) {
 
     } else if (action === 'add') {
         if (!titleFieldValue) return alert('Please enter a valid book title.')
-        addBook(titleFieldValue, newPriceFieldValue, imgFieldValue)
+        addBook(titleFieldValue, newPriceFieldValue, imgFieldValue, parseInt(ratingFieldValue))
 
     } else if (action === 'remove') {
         removeBook(sku)
     }
-    
+
     renderBooks()
     hideElements('.modal-wrapper')
     elModal.close()
@@ -217,4 +233,8 @@ function clearInputFields() {
     inputFields.forEach(input => {
         if (input.value) input.value = ''
     })
+}
+
+function formatPrice(price) {
+    return `$${price}`;
 }

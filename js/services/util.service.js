@@ -17,6 +17,12 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled)
 }
 
+function getRandomIntInclusive(min, max) {
+    const minCeiled = Math.ceil(min);
+    const maxFloored = Math.floor(max);
+    return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled)
+  }
+
 function capitalizeFirstLetter(str) {
     if (str.length === 0) return str
     return str.charAt(0).toUpperCase() + str.slice(1)
