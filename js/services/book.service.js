@@ -37,12 +37,36 @@ const unknownImg = "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image
 var gBooks = []
 _createBooks()
 
-function getBooks() {
-    return gBooks
+function getBooks(options = {}) {
+    const filterBy = options.filterBy
+    const sortBy = options.sortBy
+    const page = options.page
+
+    var books = _filterBooks(filterBy)
+
+    if (sortBy.title) {
+        const bookSortDir = sortBy.title
+        books = books.toSorted((book1, book2) => book1.title.localeCompare(book2.title) * bookSortDir)
+    }
+
+    if (sortBy.price) {
+        const priceSortDir = sortBy.price
+        books = books.toSorted((book1, book2) => (book1.price - book2.price) * priceSortDir)
+    }
+
+    if (sortBy.rating) {
+        const ratingSortDir = sortBy.rating
+        books = books.toSorted((book1, book2) => (book1.rating - book2.rating) * ratingSortDir)
+    }
+
+    return books
 }
 
-function filterBooks(inputValue) {
-    return gBooks.filter(book => book.title.toLowerCase().includes(inputValue))
+function _filterBooks(filterBy) {
+
+    var books = gBooks
+    if (filterBy.txt) books = books.filter(book => book.title.toLowerCase().includes(filterBy.txt.toLowerCase()))
+    return books
 }
 
 function addBook(title, price, img, rating) {
@@ -64,7 +88,7 @@ function updateBook(sku, newPrice) {
 
 function changeRating(sku, value) {
     const book = getBookBySKU(sku)
-    
+
     const newRating = book.rating + value
 
     if (newRating < 1 || newRating > 5) return
@@ -74,7 +98,6 @@ function changeRating(sku, value) {
     convertRatingToStars(newRating)
     _saveBooks()
 }
-
 
 function removeBook(sku) {
     const idx = gBooks.findIndex(book => book.sku === sku)
@@ -93,14 +116,13 @@ function convertRatingToStars(rating, maxRating = 5) {
     return filledStars + emptyStars
 }
 
-
 function _createBooks() {
 
     gBooks = loadFromStorage(STORAGE_KEY)
     if (gBooks && gBooks.length > 0) return
 
     const bookTitles = Object.keys(booksImages)
-    
+
     gBooks = bookTitles.map(title => {
         return _createBook(title)
     })
@@ -108,13 +130,13 @@ function _createBooks() {
 }
 
 function _createBook(title, price, imgUrl, rating) {
-    
+
     if (!price) price = getRandomIntInclusive(10, 300)
     if (!rating) rating = getRandomIntInclusive(1, 5)
     if (!imgUrl || !imgUrl.includes('http')) {
-        imgUrl = booksImages[title.toLowerCase()] 
-        ? _getBookImgByTitle(title) 
-        : unknownImg
+        imgUrl = booksImages[title.toLowerCase()]
+            ? _getBookImgByTitle(title)
+            : unknownImg
     }
 
     return {

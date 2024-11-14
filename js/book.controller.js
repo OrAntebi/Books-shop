@@ -3,11 +3,18 @@
 var gLayout = 'table'
 const LAYOUT_KEY = 'layout_db'
 
+const gQueryOptions = {
+    filterBy: { txt: '' },
+    sortBy: {},
+    page: { idx: 0, size: 5 },
+}
+
 function onInit() {
     renderBooks()
 }
 
-function renderBooks(books = getBooks()) {
+function renderBooks() {
+    const books = getBooks(gQueryOptions)
     if (gLayout === 'table') renderBooksTable(books)
     else renderBooksCards(books)
     renderBooksStatistics()
@@ -34,6 +41,9 @@ function renderBooksTable(books) {
     showElements('table')
     hideElements('div.cards-container')
     elBooks.innerHTML = strHtmls.join('')
+
+    if (books.length === 0) return showElements('.no-books-found')
+    else hideElements('.no-books-found')
 }
 
 function renderBooksCards(books) {
@@ -57,6 +67,9 @@ function renderBooksCards(books) {
     showElements('div.cards-container')
     hideElements('table')
     elBooks.innerHTML = strHtmls.join('')
+
+    if (books.length === 0) return showElements('.no-books-found')
+        else hideElements('.no-books-found')
 }
 
 function renderBookDetailsModal(book) {
@@ -92,19 +105,13 @@ function renderBooksStatistics() {
     elExpansiveBooks.innerText = calcBooksStatistics(book => book.price >= 200)
 }
 
-function onFilterBooks() {
-
-    const elSearchInput = document.querySelector('.search-input')
-    const inputValue = elSearchInput.value.toLowerCase()
-    const filteredBooks = filterBooks(inputValue)
-
-    renderBooks(filteredBooks)
-
-    if (filteredBooks.length <= 0) {
-        showElements('.no-books-found')
-    } else {
-        hideElements('.no-books-found')
+function onSetFilterBooks(filterBy) {
+    
+    if ('txt' in filterBy) {
+        gQueryOptions.filterBy.txt = filterBy.txt
     }
+
+    renderBooks()
 }
 
 function onClearSearch() {
@@ -112,6 +119,18 @@ function onClearSearch() {
     const elSearchInput = document.querySelector('.search-input')
     elNoBooksFound.classList.add('hidden')
     elSearchInput.value = ''
+    gQueryOptions.filterBy.txt = ''
+    renderBooks()
+}
+
+function onSetSortBy() {
+
+    const elSortField = document.querySelector('.sort-by select')
+    const elSortDir = document.querySelector('.radio-btns input')
+    const sortField = elSortField.value
+    const sortDir = elSortDir.checked ? -1 : 1
+    gQueryOptions.sortBy = { [sortField]: sortDir }
+
     renderBooks()
 }
 
@@ -122,9 +141,10 @@ function onAddBook() {
 }
 
 function onChangeView(layout) {
+    const filterBy = gQueryOptions.filterBy
     gLayout = layout
     saveToStorage(LAYOUT_KEY, gLayout)
-    onFilterBooks()
+    onSetFilterBooks(filterBy)
 }
 
 function onShowBookDetails(sku) {
@@ -233,8 +253,4 @@ function clearInputFields() {
     inputFields.forEach(input => {
         if (input.value) input.value = ''
     })
-}
-
-function formatPrice(price) {
-    return `$${price}`;
 }

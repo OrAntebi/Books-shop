@@ -25,15 +25,69 @@ body {
 
 header {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    gap: 3vw;
+    gap: 1vw;
 
     min-height: 10vh;
     padding: 1vh 3vw;
 
     font-family: 'PermanentMarker-Regular';
     background: linear-gradient(135deg, rgb(0, 65, 150), rgb(0, 123, 255));
+
+    .actions-options-container {
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        grid-template-areas: "search-input sort-by add-book-btn layouts";
+        gap: 3vw;
+
+        place-items: center center;
+
+        width: 100%;
+
+        .sort-by {
+            grid-area: sort-by ;
+            display: flex;
+            flex-direction: column;
+            gap: 1vh;
+            max-width: 300px;
+
+            font-size: clamp(0.8em, 1vw, 1em);
+
+            .sort-field {
+                border: 2px solid #ddd;
+                border-radius: 10px;
+                background-color: #f7f7f7;
+                transition: all 0.3s ease-in-out;
+                outline: none;
+                font-size: clamp(0.8em, 1vw, 1em);
+                font-family: monospace;
+                font-weight: bold;
+                word-spacing: -4px;
+                padding: .5em;
+                cursor: pointer;
+            }
+
+            .radio-btns {
+                gap: 2vw;
+
+                label {
+                    color: white;
+                    cursor: pointer;
+
+                    input {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+        .radio-btns {
+            display: flex;
+        }
+    }
 
     h1 {
         font-size: clamp(3rem, 5vw, 4rem);
@@ -43,8 +97,9 @@ header {
         white-space: nowrap;
     }
 
-    .search-container {
+    .filter-by {
         position: relative;
+        grid-area: search-input;
 
         width: 100%;
         max-width: 400px;
@@ -79,6 +134,10 @@ header {
         }
     }
 
+    .add-book-btn {
+        grid-area: add-book-btn;
+    }
+
     .add-book-btn,
     .change-view-btn {
         min-width: fit-content;
@@ -91,7 +150,6 @@ header {
         border: none;
         border-radius: 10px;
         cursor: pointer;
-        transition: all 0.3s ease;
         box-shadow: 0 4px 8px rgba(163, 216, 255, 0.4);
         transition: all 0.4s ease;
         
@@ -103,6 +161,7 @@ header {
     }
 
     .layouts-btns {
+        grid-area: layouts;
         display: flex;
         gap: 10px;
     }
@@ -149,10 +208,6 @@ footer {
             border: 1px solid rgb(224, 224, 224);
         }
     }
-}
-
-.main-container {
-    flex-grow: 1;
 }
 
 table {
@@ -210,7 +265,7 @@ table {
 
     .book-card {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: auto;
         grid-template-rows: 1fr 1fr;
         grid-template-areas:
             "img details"
@@ -252,6 +307,9 @@ table {
             padding: 1em;
         }
 
+        .rating-img {
+            width: clamp(20px, 2vw, 30px);
+        }
     }
 
 }
@@ -276,15 +334,12 @@ table {
 .actions-container {
 
     button {
-        width: 150px;
-        min-width: 55px;
-        max-width: 20vw;
-        padding-block: 10px;
-        margin: 0.2vh;
+        width: clamp(80px, 15vw, 120px);
+        padding: 10px 15px;
 
         font-family: 'RobotoSlab-VariableFont';
         color: #ffffff;
-        font-size: clamp(.7rem, 2vw, 1rem);
+        font-size: clamp(0.8rem, 2vw, 1rem);
         border: none;
         border-radius: 8px;
         cursor: pointer;
@@ -422,7 +477,7 @@ table {
         display: flex;
         justify-content: space-around;
 
-        margin-block-start: 10px;
+        margin-block-start: 15px;
 
         button {
             padding: 10px;
@@ -489,6 +544,25 @@ input {
     margin: 0 1px;
 }
 
+.pagination-container {
+    display: flex;
+    gap: 20px;
+
+    width: fit-content;
+    padding: 5px 8px;
+    margin: 10px auto;
+
+    border: 2px dashed #ddd;
+    background-color: #efeeee;
+    font-size: clamp(25px, 5vw, 40px);
+
+    img {
+        width: 1em;
+        object-fit: contain;
+    }
+}
+
+
 .backdrop {
     position: fixed;
     top: 0;
@@ -546,11 +620,16 @@ input {
     display: none;
 }
 
-@media (width < 800px) {
+@media (width < 700px) {
 
-    header {
-        flex-direction: column;
-        gap: 15px;
+    header .actions-options-container {
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        grid-template-areas: 
+        "search-input search-input"
+        "add-book-btn layouts"
+        "sort-by sort-by";
+        gap: 1rem;
     }
 
     table {
