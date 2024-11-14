@@ -59,13 +59,10 @@ function getBooks(options = {}) {
         books = books.toSorted((book1, book2) => (book1.rating - book2.rating) * ratingSortDir)
     }
 
-    return books
-}
+    const startIdx = page.currPageNumber * page.size
+    const endIdx = startIdx + page.size
+    books = books.slice(startIdx, endIdx)
 
-function _filterBooks(filterBy) {
-
-    var books = gBooks
-    if (filterBy.txt) books = books.filter(book => book.title.toLowerCase().includes(filterBy.txt.toLowerCase()))
     return books
 }
 
@@ -105,8 +102,19 @@ function removeBook(sku) {
     _saveBooks()
 }
 
-function calcBooksStatistics(condition) {
-    var booksStats = gBooks.filter(condition).length
+function getPageCount(options) {
+    const filterBy = options.filterBy
+    const page = options.page
+
+    const booksLength = _filterBooks(filterBy).length
+    const pageCount = Math.ceil(booksLength / page.size)
+
+    return pageCount
+}
+
+function calcBooksStatistics(condition, options) {
+    const books = _filterBooks(options)
+    var booksStats = books.filter(condition).length
     return booksStats
 }
 
@@ -147,6 +155,12 @@ function _createBook(title, price, imgUrl, rating) {
         description: generateLoremIpsum(40),
         rating
     }
+}
+
+function _filterBooks(filterBy) {
+    var books = gBooks
+    if (filterBy.txt) books = books.filter(book => book.title.toLowerCase().includes(filterBy.txt.toLowerCase()))
+    return books
 }
 
 function _getBookImgByTitle(title) {

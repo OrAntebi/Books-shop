@@ -144,7 +144,7 @@ header {
 
         padding: 5px 10px;
         font-family: 'PermanentMarker-Regular';
-        font-size: clamp(1rem, 2vw, 1.5rem);
+        font-size: clamp(.8rem, 4vw, 1.5rem);
         background-color: #5dbbff;
         color: white;
         border: none;
@@ -208,6 +208,10 @@ footer {
             border: 1px solid rgb(224, 224, 224);
         }
     }
+}
+
+.main-container {
+    flex-grow: 1;
 }
 
 table {
@@ -554,14 +558,14 @@ input {
 
     border: 2px dashed #ddd;
     background-color: #efeeee;
-    font-size: clamp(25px, 5vw, 40px);
+    font-size: clamp(20px, 5vw, 30px);
 
     img {
         width: 1em;
         object-fit: contain;
+        cursor: pointer;
     }
 }
-
 
 .backdrop {
     position: fixed;
@@ -626,9 +630,8 @@ input {
         grid-template-columns: auto;
         grid-template-rows: auto;
         grid-template-areas: 
-        "search-input search-input"
-        "add-book-btn layouts"
-        "sort-by sort-by";
+        "search-input search-input search-input"
+        "sort-by add-book-btn layouts";
         gap: 1rem;
     }
 
@@ -695,4 +698,11 @@ input {
         }
     }
 
+}
+
+@media (width < 600px) {
+
+    .radio-btns {
+        flex-direction: column;
+    }
 }
