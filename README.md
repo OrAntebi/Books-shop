@@ -37,6 +37,8 @@ You can try the project live here:
    ```bash
    git clone https://github.com/OrAntebi/Books-shop-main.git
 
+---
+
 ## 📸 Screenshot
 
 Here are some screenshots from the project:
