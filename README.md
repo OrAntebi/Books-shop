@@ -39,7 +39,7 @@ You can try the project live here:
 
 ---
 
-## 📸 Screenshot
+## 📸 Screenshots
 
 Here are some screenshots from the project:
 
