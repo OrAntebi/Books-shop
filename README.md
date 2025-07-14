@@ -23,6 +23,13 @@ This project was created as a learning exercise focusing on core web development
 
 ---
 
+## 🌐 Live Demo
+
+You can try the project live here:  
+👉 [Books Shop Live](https://orantebi.github.io/Books-shop/)
+
+---
+
 ## 🚀 How to Run the Project
 
 ### Option 1: Open Directly in Browser
